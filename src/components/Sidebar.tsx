@@ -19,7 +19,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
       </div>
 
       <nav className="mb-8">
-        <h3 className="text-sm font-semibold text-gray-300 mb-2"></h3>
+        <h3 className="text-sm font-semibold text-gray-300 mb-2">Navigation</h3>
         <ul className="space-y-2">
           <li>
             <Link
