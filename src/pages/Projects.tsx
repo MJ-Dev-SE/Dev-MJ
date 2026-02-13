@@ -22,10 +22,10 @@ export default function Projects() {
         />
 
         <ProjectCard
-          title="Augmented Reality System Walkthrough"
+          title="Augmented Reality System - Video Walkthrough"
           description="This system allows users to express reasoning and solve problems by visualizing furniture in true-to-size in real space."
           tech={["React Native", "Unity", "ARCore"]}
-          link="https://yourportfolio.com"
+          link="https://drive.google.com/file/d/1Z7GFghaJJArYMRIE4RzFO1vhpmxoECay/view?usp=sharing"
         />
       </div>
     </section>
