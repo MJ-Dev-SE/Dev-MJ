@@ -39,6 +39,15 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
               Projects
             </Link>
           </li>
+          <li>
+            <Link
+              to="/certifications"
+              className="block py-2 px-3 rounded hover:bg-slate-800 text-gray-300 hover:text-white"
+              onClick={toggleSidebar}
+            >
+              Certifications
+            </Link>
+          </li>
 
           <li>
             <Link
