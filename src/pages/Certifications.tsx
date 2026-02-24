@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Certification = {
   title: string;
   issuer: string;
@@ -51,6 +53,9 @@ const certifications: Certification[] = [
 ];
 
 export default function Certifications() {
+  const [previewCertification, setPreviewCertification] =
+    useState<Certification | null>(null);
+
   const openCertification = (target: string) => {
     window.open(target, "_blank", "noopener,noreferrer");
   };
@@ -61,22 +66,6 @@ export default function Certifications() {
         <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">
           Certifications
         </h2>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          Open each certification quickly and follow a consistent verification
-          flow.
-        </p>
-      </div>
-
-      <div className="mb-10 rounded-xl border border-slate-800 bg-slate-900/70 p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">Helper Flow</h3>
-        <ol className="list-decimal list-inside text-gray-300 space-y-2 mb-6">
-          <li>Put downloaded certificate files in public/certifications.</li>
-          <li>Set each card filePath as /certifications/your-file-name.pdf.</li>
-          <li>
-            Use Open Certificate for local files and Proceed to Link
-            Certification for online cert links.
-          </li>
-        </ol>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -99,12 +88,20 @@ export default function Certifications() {
               <p className="text-gray-300 mb-4">{certification.brief}</p>
               <div className="flex flex-wrap gap-3">
                 {filePath && (
+                  <>
+                    <div
+                      className="px-4 py-2 rounded-md border border-sky-400/50 text-sky-300 text-sm select-none cursor-default"
+                      onMouseEnter={() => setPreviewCertification(certification)}
+                    >
+                      Hover to Preview
+                    </div>
                   <button
                     className="px-4 py-2 rounded-md bg-slate-100 text-slate-900 hover:bg-white transition-colors font-medium"
                     onClick={() => openCertification(filePath)}
                   >
                     Open Certificate
                   </button>
+                  </>
                 )}
                 {link && (
                   <button
@@ -119,6 +116,31 @@ export default function Certifications() {
           );
         })}
       </div>
+
+      {previewCertification?.filePath && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 transition-opacity duration-300"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setPreviewCertification(null);
+            }
+          }}
+        >
+          <div
+            onMouseLeave={() => setPreviewCertification(null)}
+            className="w-full max-w-4xl h-[80vh] rounded-xl border border-slate-700 bg-slate-950/95 overflow-hidden shadow-2xl transition-all duration-300 ease-out scale-100 opacity-100"
+          >
+            <div className="px-4 py-3 border-b border-slate-800 text-sm text-slate-200">
+              Preview: {previewCertification.title}
+            </div>
+            <iframe
+              src={previewCertification.filePath}
+              title={`${previewCertification.title} Preview`}
+              className="w-full h-[calc(80vh-49px)]"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
