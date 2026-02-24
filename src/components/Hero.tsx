@@ -92,7 +92,7 @@ export default function Hero() {
 
           <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
             <h3 className="text-xl font-bold text-sky-400">
-              Full-Stack Developer
+              Full-Stack Developer - Inventory Management System
             </h3>
             <p className="text-red-900 font-semibold">PNP Inventory System</p>
             <p className="text-gray-500 text-sm mb-3">January 2026 – Present</p>
@@ -108,7 +108,7 @@ export default function Hero() {
             </ul>
           </div>
 
-          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+          {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
             <h3 className="text-xl font-bold text-sky-400">
               Full-Stack Developer
             </h3>
@@ -123,11 +123,11 @@ export default function Hero() {
               <li>• Designed productivity-tracking features</li>
               <li>• Increased user engagement by approximately 25%</li>
             </ul>
-          </div>
+          </div> */}
 
           <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
             <h3 className="text-xl font-bold text-sky-400">
-              Software Engineer
+              Mobile App - Involve Unity Integration
             </h3>
             <p className="text-red-900 font-semibold">
               ShopFur (Augmented Reality Project)
