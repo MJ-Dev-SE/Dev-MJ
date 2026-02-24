@@ -16,7 +16,7 @@ export default function Projects() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <ProjectCard
           title="Inventory Management System"
-          description="This system reduces manual work and lengthy processes such as contacting for data. Users can simply upload their data to their specific PPO and station."
+          description="This system reduces manual work and lengthy processes such as contacting for data. Users can simply upload their data to their specific PPO and station. Some of the data it contains are mock data used for testing purposes."
           tech={["React", "Supabase", "TypeScript"]}
           link="https://pnp-github-io-zrx7.vercel.app/"
         />
