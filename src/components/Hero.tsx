@@ -58,9 +58,6 @@ export default function Hero() {
             <div>📞 0993 756 4973</div>
             <div>📧 markjerohmcastro05@gmail.com</div>
           </div>
-          <p className="text-gray-500">
-            📍 Brgy. Siranglupa, Calamba City, Laguna
-          </p>
         </div>
       ),
     },
@@ -97,7 +94,7 @@ export default function Hero() {
             <p className="text-red-900 font-semibold">PNP Inventory System</p>
             <p className="text-gray-500 text-sm mb-3">January 2026 – Present</p>
             <ul className="space-y-2 text-gray-400">
-              <li>• Improved system performance and efficiency by 20%</li>
+              <li>• Improved system performance and efficiency</li>
               <li>
                 • Implemented user authentication and role-based access control
               </li>

@@ -23,9 +23,18 @@ export default function Projects() {
 
         <ProjectCard
           title="Augmented Reality System - Video Walkthrough"
-          description="This system allows users to express reasoning and solve problems by visualizing furniture in true-to-size in real space."
+          description="This project has two connected mobile apps that work at the same time. Use the links below to install both apps and explore the full AR furniture experience."
           tech={["React Native", "Unity", "ARCore"]}
-          link="https://drive.google.com/file/d/1Z7GFghaJJArYMRIE4RzFO1vhpmxoECay/view?usp=sharing"
+          links={[
+            {
+              label: "App 1 Install Link",
+              url: "https://drive.google.com/file/d/1FoN_FoodLzIv6a19hDYl_QG_9AsGIYMX/view?usp=drive_link",
+            },
+            {
+              label: "App 2 Install Link",
+              url: "https://drive.google.com/file/d/1_uE9bPImyokTVMsd6j-ycoUD0GupBVJ_/view?usp=sharing",
+            },
+          ]}
         />
       </div>
     </section>
