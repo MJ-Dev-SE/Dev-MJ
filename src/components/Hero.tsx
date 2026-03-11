@@ -49,14 +49,14 @@ export default function Hero() {
       title: "Welcome",
       content: (
         <div className="space-y-6">
-          <h1 className="text-6xl font-bold text-red-900 min-h-[72px]">
+          <h1 className="text-6xl font-bold text-amber-100 min-h-[72px]">
             {typedText}
             <span className="animate-pulse">|</span>
           </h1>
-          <p className="text-2xl text-sky-400">Software Engineer</p>
+          <p className="text-2xl text-amber-200">Software Engineer</p>
           <div className="flex justify-center gap-8 text-gray-400 text-sm">
             <div>📞 0993 756 4973</div>
-            <div>📧 markjerohmcastro05@gmail.com</div>
+            <div>📧 markjerohm@gmail.com</div>
           </div>
         </div>
       ),
@@ -66,14 +66,12 @@ export default function Hero() {
       title: "Professional Summary",
       content: (
         <div className="space-y-6 max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold text-red-900">About Me</h2>
+          <h2 className="text-4xl font-bold text-amber-100">About the Vision</h2>
           <p className="text-gray-400 text-lg leading-relaxed">
-            Software Engineer with experience in developing and maintaining
-            software applications across different projects in the Philippines.
-            Skilled in working with databases, APIs, and modern development
-            tools. Experienced in collaborating with cross-functional teams to
-            deliver efficient, scalable, and high-quality software solutions
-            within deadlines.
+            Building a web-based basketball playbook system that catalogs plays,
+            player roles, and rhythm so every sequence stays connected. The plan
+            is to translate live-game logic into reusable plays, keyed on
+            player strengths and the next scoring opportunity.
           </p>
         </div>
       ),
@@ -83,16 +81,16 @@ export default function Hero() {
       title: "Experience",
       content: (
         <div className="space-y-8 max-w-4xl mx-auto text-left">
-          <h2 className="text-4xl font-bold text-red-900 text-center mb-8">
+          <h2 className="text-4xl font-bold text-amber-100 text-center mb-8">
             Experience
           </h2>
 
           <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-sky-400">
+            <h3 className="text-xl font-bold text-amber-200">
               Full-Stack Developer - Inventory Management System
             </h3>
-            <p className="text-red-900 font-semibold">PNP Inventory System</p>
-            <p className="text-gray-500 text-sm mb-3">January 2026 – Present</p>
+            <p className="text-amber-100 font-semibold">PNP Inventory System</p>
+            <p className="text-amber-200/80 text-sm mb-3">January 2026 – Present</p>
             <ul className="space-y-2 text-gray-400">
               <li>• Improved system performance and efficiency</li>
               <li>
@@ -106,7 +104,7 @@ export default function Hero() {
           </div>
 
           {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-sky-400">
+            <h3 className="text-xl font-bold text-amber-200">
               Full-Stack Developer
             </h3>
             <p className="text-red-900 font-semibold">Task Management System</p>
@@ -123,13 +121,13 @@ export default function Hero() {
           </div> */}
 
           <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-sky-400">
+            <h3 className="text-xl font-bold text-amber-200">
               Mobile App - Involve Unity Integration
             </h3>
-            <p className="text-red-900 font-semibold">
+            <p className="text-amber-100 font-semibold">
               ShopFur (Augmented Reality Project)
             </p>
-            <p className="text-gray-500 text-sm mb-3">
+            <p className="text-amber-200/80 text-sm mb-3">
               January 2025 – December 2025
             </p>
             <ul className="space-y-2 text-gray-400">
@@ -159,13 +157,86 @@ export default function Hero() {
   };
 
   return (
-    <section className="min-h-[90vh] flex items-center justify-center px-4">
+    <section className="relative min-h-[90vh] flex items-center justify-center px-4">
       <div className="w-full max-w-6xl relative">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-20 -right-10 w-72 h-72 bg-amber-500/40 blur-[140px]" />
+          <div className="absolute -bottom-12 left-6 w-64 h-64 bg-rose-500/30 blur-[120px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.18),_transparent_65%)]" />
+        </div>
         {/* Carousel Container */}
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl border border-slate-700 p-12 min-h-[600px] flex items-center justify-center">
-          {/* Slide Content */}
-          <div className="text-center w-full">
-            {slides[currentSlide].content}
+        <div className="relative bg-gradient-to-br from-slate-950 via-amber-950/40 to-slate-950 rounded-3xl shadow-[0_25px_60px_rgba(2,6,23,0.9)] border border-slate-800 p-8 md:p-12 min-h-[560px] overflow-hidden">
+          <div className="grid gap-10 lg:grid-cols-[1.25fr,0.75fr] items-center text-left">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-slate-400">
+                <span>Active</span>
+                <span>Building for impact</span>
+              </div>
+              <div>{slides[currentSlide].content}</div>
+              <div className="text-sm leading-relaxed text-slate-200 border border-slate-800 bg-white/5 rounded-2xl px-6 py-4 backdrop-blur">
+                <p className="font-semibold text-white">Current focus</p>
+                <p className="text-slate-300">
+                  Prototyping a basketball playbook studio that keeps plays,
+                  roles, and tempo in sync for the next roster run.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-6">
+            <div className="bg-white/5 border border-slate-800 rounded-2xl p-6 flex flex-col gap-4">
+              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400">
+                <span>Mode</span>
+                <span>Prototype</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-white">
+                Basketball Playbook
+              </h3>
+              <p className="text-sm text-slate-300">
+                Mapping play types, player roles, and tempo into a single web
+                layer so squads can practice and pivot faster.
+              </p>
+              <div className="h-1.5 w-full bg-slate-900 rounded-full">
+                <div className="h-full w-2/3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
+              </div>
+              <p className="text-xs uppercase tracking-[0.25em] text-amber-200">
+                Playbook progress · 68%
+              </p>
+              <div className="flex flex-wrap gap-2 text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">
+                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
+                  Plays
+                </span>
+                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
+                  Roles
+                </span>
+                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
+                  Analytics
+                </span>
+              </div>
+            </div>
+              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-3 text-sm text-slate-300">
+                <h4 className="text-xs uppercase tracking-[0.4em] text-slate-500">
+                  Play Rhythm
+                </h4>
+                <p className="text-base text-white font-semibold">
+                  Player roles and transition quality
+                </p>
+                <div className="space-y-2">
+                  <p className="flex items-center justify-between text-xs uppercase tracking-[0.2em]">
+                    <span>Defense sets</span>
+                    <span>Live</span>
+                  </p>
+                  <p className="flex items-center justify-between text-xs uppercase tracking-[0.2em]">
+                    <span>Rotation trails</span>
+                    <span>Next lab</span>
+                  </p>
+                </div>
+                <div className="h-1.5 w-full bg-slate-800 rounded-full">
+                  <div className="h-full w-2/5 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
+                </div>
+                <p className="text-xs uppercase tracking-[0.25em] text-amber-200">
+                  Variation lab · Sprint 3
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Navigation Arrows */}
@@ -230,13 +301,13 @@ export default function Hero() {
         <div className="flex justify-center gap-4 mt-8">
           <a
             href="/projects"
-            className="px-6 py-3 rounded-lg bg-sky-400 hover:bg-sky-500 text-black font-medium transition-all"
+            className="px-6 py-3 rounded-lg bg-amber-400 hover:bg-amber-500 text-black font-semibold transition-all"
           >
             View Projects
           </a>
           <a
             href="/contact"
-            className="px-6 py-3 rounded-lg border border-slate-700 hover:border-sky-400 hover:text-sky-400 transition-all"
+            className="px-6 py-3 rounded-lg border border-slate-700 hover:border-amber-400 hover:text-amber-200 transition-all"
           >
             Contact Me
           </a>
