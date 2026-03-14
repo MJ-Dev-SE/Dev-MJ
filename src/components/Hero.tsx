@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const roles = [
-    "Software Engineer",
-    "Mobile Developer",
-    "Web Designer",
-    "Front-End Developer",
-    "Full-Stack Developer",
-  ];
+  const roles = useMemo(
+    () => [
+      "Software Engineer",
+      "Mobile Developer",
+      "Web Designer",
+      "Front-End Developer",
+      "Full-Stack Developer",
+    ],
+    []
+  );
   const [typedRole, setTypedRole] = useState("");
   const roleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const roleIndexRef = useRef(0);
@@ -52,7 +55,7 @@ export default function Hero() {
         clearInterval(roleTimerRef.current);
       }
     };
-  }, [currentSlide]);
+  }, [currentSlide, roles]);
 
   const slides = [
     {
