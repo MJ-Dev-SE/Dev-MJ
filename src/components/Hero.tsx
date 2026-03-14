@@ -2,43 +2,54 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [typedText, setTypedText] = useState("");
-  const fullName = "MARK JEROHM CASTRO";
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const isTypingRef = useRef(true);
-  const indexRef = useRef(0);
+  const roles = [
+    "Software Engineer",
+    "Mobile Developer",
+    "Web Designer",
+    "Front-End Developer",
+    "Full-Stack Developer",
+  ];
+  const [typedRole, setTypedRole] = useState("");
+  const roleTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const roleIndexRef = useRef(0);
+  const roleCharIndexRef = useRef(0);
+  const isRoleTypingRef = useRef(true);
 
   useEffect(() => {
     if (currentSlide === 0) {
-      timerRef.current = setInterval(() => {
-        if (isTypingRef.current) {
-          if (indexRef.current < fullName.length) {
-            indexRef.current++;
-            setTypedText(fullName.slice(0, indexRef.current));
+      roleTimerRef.current = setInterval(() => {
+        const currentRole = roles[roleIndexRef.current];
+
+        if (isRoleTypingRef.current) {
+          if (roleCharIndexRef.current < currentRole.length) {
+            roleCharIndexRef.current += 1;
+            setTypedRole(currentRole.slice(0, roleCharIndexRef.current));
           } else {
-            isTypingRef.current = false;
+            isRoleTypingRef.current = false;
           }
         } else {
-          if (indexRef.current > 0) {
-            indexRef.current--;
-            setTypedText(fullName.slice(0, indexRef.current));
+          if (roleCharIndexRef.current > 0) {
+            roleCharIndexRef.current -= 1;
+            setTypedRole(currentRole.slice(0, roleCharIndexRef.current));
           } else {
-            isTypingRef.current = true;
+            isRoleTypingRef.current = true;
+            roleIndexRef.current = (roleIndexRef.current + 1) % roles.length;
           }
         }
-      }, 100);
+      }, 90);
     } else {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
+      if (roleTimerRef.current) {
+        clearInterval(roleTimerRef.current);
+        roleTimerRef.current = null;
       }
-      setTypedText("");
-      indexRef.current = 0;
-      isTypingRef.current = true;
+      setTypedRole("");
+      roleCharIndexRef.current = 0;
+      isRoleTypingRef.current = true;
     }
+
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
+      if (roleTimerRef.current) {
+        clearInterval(roleTimerRef.current);
       }
     };
   }, [currentSlide]);
@@ -50,10 +61,12 @@ export default function Hero() {
       content: (
         <div className="space-y-6">
           <h1 className="text-6xl font-bold text-amber-100 min-h-[72px]">
-            {typedText}
-            <span className="animate-pulse">|</span>
+            MARK JEROHM CASTRO
           </h1>
-          <p className="text-2xl text-amber-200">Software Engineer</p>
+          <p className="text-2xl text-amber-200 min-h-[40px]">
+            {typedRole}
+            <span className="animate-pulse">|</span>
+          </p>
           <div className="flex justify-center gap-8 text-gray-400 text-sm">
             <div>📞 0993 756 4973</div>
             <div>📧 markjerohm@gmail.com</div>
@@ -66,12 +79,13 @@ export default function Hero() {
       title: "Professional Summary",
       content: (
         <div className="space-y-6 max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold text-amber-100">About the Vision</h2>
+          <h2 className="text-4xl font-bold text-amber-100">Where I am now</h2>
           <p className="text-gray-400 text-lg leading-relaxed">
-            Building a web-based basketball playbook system that catalogs plays,
-            player roles, and rhythm so every sequence stays connected. The plan
-            is to translate live-game logic into reusable plays, keyed on
-            player strengths and the next scoring opportunity.
+            Crafting web and mobile experiences with React, TypeScript, and
+            React Native. I focus on clean UI systems, performant front-end
+            flows, and shipping features end-to-end—from API wiring to polished
+            interactions. I enjoy rapid prototyping, then tightening the build
+            with tests, accessibility, and sensible analytics.
           </p>
         </div>
       ),
@@ -90,18 +104,33 @@ export default function Hero() {
               Full-Stack Developer - Inventory Management System
             </h3>
             <p className="text-amber-100 font-semibold">PNP Inventory System</p>
-            <p className="text-amber-200/80 text-sm mb-3">January 2026 – Present</p>
+            <p className="text-amber-200/80 text-sm mb-3">
+              January 2026 – Present
+            </p>
             <ul className="space-y-2 text-gray-400">
-              <li>• Improved system performance and efficiency</li>
+              <li>- Improved system performance and efficiency</li>
               <li>
-                • Implemented user authentication and role-based access control
+                - Implemented user authentication and role-based access control
               </li>
               <li>
-                • Added automatic data updates for better organization and
+                - Added automatic data updates for better organization and
                 security
               </li>
             </ul>
           </div>
+
+          {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+            <h3 className="text-xl font-bold text-amber-200">
+              Basketball Playbook Studio
+            </h3>
+            <p className="text-amber-100 font-semibold">Side Project</p>
+            <p className="text-amber-200/80 text-sm mb-3">2025 – 2026</p>
+            <ul className="space-y-2 text-gray-400">
+              <li>- Mapped plays, roles, and tempo into a shared web app</li>
+              <li>- Built a React front end with quick roster tweaks</li>
+              <li>- Added lightweight analytics for faster adjustments</li>
+            </ul>
+          </div> */}
 
           {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
             <h3 className="text-xl font-bold text-amber-200">
@@ -113,10 +142,10 @@ export default function Hero() {
             </p>
             <ul className="space-y-2 text-gray-400">
               <li>
-                • Developed web application using Python (Flask) with Firebase
+                - Developed web application using Python (Flask) with Firebase
               </li>
-              <li>• Designed productivity-tracking features</li>
-              <li>• Increased user engagement by approximately 25%</li>
+              <li>- Designed productivity-tracking features</li>
+              <li>- Increased user engagement by approximately 25%</li>
             </ul>
           </div> */}
 
@@ -132,11 +161,11 @@ export default function Hero() {
             </p>
             <ul className="space-y-2 text-gray-400">
               <li>
-                • Developed mobile app using React Native (TypeScript) and
+                - Developed mobile app using React Native (TypeScript) and
                 Firebase
               </li>
-              <li>• Integrated Unity for augmented reality features</li>
-              <li>• Improved overall app stability and user experience</li>
+              <li>- Integrated Unity for augmented reality features</li>
+              <li>- Improved overall app stability and user experience</li>
             </ul>
           </div>
         </div>
@@ -165,76 +194,81 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.18),_transparent_65%)]" />
         </div>
         {/* Carousel Container */}
-        <div className="relative bg-gradient-to-br from-slate-950 via-amber-950/40 to-slate-950 rounded-3xl shadow-[0_25px_60px_rgba(2,6,23,0.9)] border border-slate-800 p-8 md:p-12 min-h-[560px] overflow-hidden">
+        <div className="relative bg-gradient-to-br from-slate-950 via-amber-950/40 to-slate-950 rounded-3xl shadow-[0_12px_28px_rgba(2,6,23,0.55)] border border-slate-800/80 p-8 md:p-12 min-h-[560px] overflow-hidden">
           <div className="grid gap-10 lg:grid-cols-[1.25fr,0.75fr] items-center text-left">
             <div className="space-y-6">
               <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-slate-400">
                 <span>Active</span>
-                <span>Building for impact</span>
+                <span>What I build</span>
               </div>
               <div>{slides[currentSlide].content}</div>
-              <div className="text-sm leading-relaxed text-slate-200 border border-slate-800 bg-white/5 rounded-2xl px-6 py-4 backdrop-blur">
-                <p className="font-semibold text-white">Current focus</p>
-                <p className="text-slate-300">
-                  Prototyping a basketball playbook studio that keeps plays,
-                  roles, and tempo in sync for the next roster run.
-                </p>
-              </div>
+              {currentSlide === 0 && (
+                <div className="text-sm leading-relaxed text-slate-200 border border-slate-800 bg-white/5 rounded-2xl px-6 py-4 backdrop-blur">
+                  <p className="font-semibold text-white">Current focus</p>
+                  <p className="text-slate-300">
+                    Refining a basketball playbook tool—mapping plays, player
+                    roles, and tempo so adjustments stay quick and repeatable.
+                  </p>
+                </div>
+              )}
             </div>
             <div className="space-y-6">
-            <div className="bg-white/5 border border-slate-800 rounded-2xl p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400">
-                <span>Mode</span>
-                <span>Prototype</span>
+              <div className="bg-white/5 border border-amber-400/30 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400">
+                  <span>Mode</span>
+                  <span>Build · Ship</span>
+                </div>
+                <h3 className="text-2xl font-semibold text-white">
+                  Web + Mobile Work
+                </h3>
+                <p className="text-sm text-slate-300">
+                  I set up UI, connect APIs, and keep the flow smooth on both
+                  web and mobile.
+                </p>
+                <div className="flex flex-wrap gap-2 text-[0.65rem] uppercase tracking-[0.25em] text-slate-200">
+                  <span className="px-3 py-1 rounded-full border border-amber-500/40 bg-amber-500/10">
+                    UI
+                  </span>
+                  <span className="px-3 py-1 rounded-full border border-amber-500/30 bg-slate-900/60">
+                    API
+                  </span>
+                  <span className="px-3 py-1 rounded-full border border-amber-500/30 bg-slate-900/60">
+                    Ops
+                  </span>
+                </div>
               </div>
-              <h3 className="text-2xl font-semibold text-white">
-                Basketball Playbook
-              </h3>
-              <p className="text-sm text-slate-300">
-                Mapping play types, player roles, and tempo into a single web
-                layer so squads can practice and pivot faster.
-              </p>
-              <div className="h-1.5 w-full bg-slate-900 rounded-full">
-                <div className="h-full w-2/3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
-              </div>
-              <p className="text-xs uppercase tracking-[0.25em] text-amber-200">
-                Playbook progress · 68%
-              </p>
-              <div className="flex flex-wrap gap-2 text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">
-                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
-                  Plays
-                </span>
-                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
-                  Roles
-                </span>
-                <span className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/60">
-                  Analytics
-                </span>
-              </div>
-            </div>
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-3 text-sm text-slate-300">
-                <h4 className="text-xs uppercase tracking-[0.4em] text-slate-500">
-                  Play Rhythm
+              <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 space-y-3 text-sm text-slate-300 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+                <h4 className="text-xs uppercase tracking-[0.35em] text-slate-500 flex items-center gap-2">
+                  Status · Team Ready
+                  <span className="h-px w-8 bg-gradient-to-r from-amber-400/70 to-transparent" />
                 </h4>
                 <p className="text-base text-white font-semibold">
-                  Player roles and transition quality
+                  How this helps
+                </p>
+                <p className="text-xs text-slate-400">
+                  Less back-and-forth, quicker reviews, clearer updates for
+                  leads and QA.
                 </p>
                 <div className="space-y-2">
                   <p className="flex items-center justify-between text-xs uppercase tracking-[0.2em]">
-                    <span>Defense sets</span>
-                    <span>Live</span>
+                    <span>Design handoff</span>
+                    <span className="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-200 border border-emerald-500/30">
+                      Live
+                    </span>
                   </p>
                   <p className="flex items-center justify-between text-xs uppercase tracking-[0.2em]">
-                    <span>Rotation trails</span>
-                    <span>Next lab</span>
+                    <span>QA + checks</span>
+                    <span className="px-2 py-1 rounded-full bg-sky-500/10 text-sky-200 border border-sky-500/30">
+                      In review
+                    </span>
+                  </p>
+                  <p className="flex items-center justify-between text-xs uppercase tracking-[0.2em]">
+                    <span>User feedback</span>
+                    <span className="px-2 py-1 rounded-full bg-amber-500/10 text-amber-200 border border-amber-400/40">
+                      Iterating
+                    </span>
                   </p>
                 </div>
-                <div className="h-1.5 w-full bg-slate-800 rounded-full">
-                  <div className="h-full w-2/5 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
-                </div>
-                <p className="text-xs uppercase tracking-[0.25em] text-amber-200">
-                  Variation lab · Sprint 3
-                </p>
               </div>
             </div>
           </div>
