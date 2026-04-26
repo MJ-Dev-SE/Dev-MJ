@@ -13,8 +13,8 @@ export default function Projects() {
           </h2>
           <p className="text-slate-400 text-lg max-w-3xl mx-auto mt-4">
             These prototypes span inventory tooling, augmented reality,
-            and a planned basketball playbook system that ties plays, roles,
-            and rhythm together.
+            AI-powered career management, and a planned basketball playbook
+            system that ties plays, roles, and rhythm together.
           </p>
           <div className="mx-auto mt-6 h-1 w-1/2 rounded-full bg-gradient-to-r from-amber-500/40 via-amber-400 to-slate-800"></div>
         </div>
@@ -24,8 +24,8 @@ export default function Projects() {
             title="Inventory Management System"
             description="Streamlines officer data intake by letting users upload datasets per PPO and station while preserving audit trails."
             tech={["React", "Supabase", "TypeScript"]}
-            projectStatus="Live"
-            timeline="Q1 2026"
+            projectStatus="Done | Internship"
+            timeline="MARCH 2026"
             highlights={[
               "Automated PPO visibility",
               "Role-aware dashboards",
@@ -33,6 +33,26 @@ export default function Projects() {
             ]}
             link="https://pnp-github-io-zrx7.vercel.app/"
             ctaLabel="Visit inventory"
+          />
+          <ProjectCard
+            title="EASYJOBASTATUS"
+            description="AI-powered job application tracker and career assistant that centralizes opportunities, analyzes skill fit, and generates personalized follow-up strategies."
+            tech={[
+              "React 19",
+              "TypeScript",
+              "Supabase",
+              "Tailwind CSS",
+              "Google Gemini",
+            ]}
+            projectStatus="In Progress"
+            timeline="2026"
+            highlights={[
+              "Application status dashboard",
+              "AI Fit Analyzer for skill gap detection",
+              "Automated follow-up and company research",
+            ]}
+            link="https://easyjobastatus.vercel.app/login"
+            ctaLabel="View EASYJOBASTATUS"
           />
 
           <ProjectCard

@@ -4,13 +4,13 @@ export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const roles = useMemo(
     () => [
-      "Software Engineer",
+      "React Developer",
       "Mobile Developer",
       "Web Designer",
       "Front-End Developer",
       "Full-Stack Developer",
     ],
-    []
+    [],
   );
   const [typedRole, setTypedRole] = useState("");
   const roleTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -97,79 +97,86 @@ export default function Hero() {
       id: 2,
       title: "Experience",
       content: (
-        <div className="space-y-8 max-w-4xl mx-auto text-left">
+        <div className="space-y-8 max-w-5xl mx-auto text-left">
           <h2 className="text-4xl font-bold text-amber-100 text-center mb-8">
             Experience
           </h2>
 
-          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-amber-200">
-              Full-Stack Developer - Inventory Management System
-            </h3>
-            <p className="text-amber-100 font-semibold">PNP Inventory System</p>
-            <p className="text-amber-200/80 text-sm mb-3">
-              January 2026 – Present
-            </p>
-            <ul className="space-y-2 text-gray-400">
-              <li>- Improved system performance and efficiency</li>
-              <li>
-                - Implemented user authentication and role-based access control
-              </li>
-              <li>
-                - Added automatic data updates for better organization and
-                security
-              </li>
-            </ul>
-          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-amber-200">
+                  React | Personal Project
+                </h3>
+                <p className="text-amber-100 font-semibold">EasyJobAStatus</p>
+                <p className="text-amber-200/80 text-sm mb-3">2026</p>
+                <ul className="space-y-2 text-gray-400">
+                  <li>
+                    - Built a status dashboard for job tracking and team updates
+                  </li>
+                  <li>
+                    - Designed clear progress views, alerts, and timeline
+                    summaries
+                  </li>
+                  <li>
+                    - Delivered visibility that accelerates decision-making and
+                    handoff
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-          {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-amber-200">
-              Basketball Playbook Studio
-            </h3>
-            <p className="text-amber-100 font-semibold">Side Project</p>
-            <p className="text-amber-200/80 text-sm mb-3">2025 – 2026</p>
-            <ul className="space-y-2 text-gray-400">
-              <li>- Mapped plays, roles, and tempo into a shared web app</li>
-              <li>- Built a React front end with quick roster tweaks</li>
-              <li>- Added lightweight analytics for faster adjustments</li>
-            </ul>
-          </div> */}
+            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-amber-200">
+                  UI / UX Developer | Intern
+                </h3>
+                <p className="text-amber-100 font-semibold">
+                  PNP Inventory System
+                </p>
+                <p className="text-amber-200/80 text-sm mb-3">
+                  Dec 2025 – March 2026
+                </p>
+                <ul className="space-y-2 text-gray-400">
+                  <li>
+                    - Aligned system workflows with PNP operations and reporting
+                  </li>
+                  <li>
+                    - Implemented secure role-based access and audit tracking
+                  </li>
+                  <li>
+                    - Optimized inventory sync for faster police logistics
+                    updates
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-          {/* <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-amber-200">
-              Full-Stack Developer
-            </h3>
-            <p className="text-red-900 font-semibold">Task Management System</p>
-            <p className="text-gray-500 text-sm mb-3">
-              August 2025 – December 2025
-            </p>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                - Developed web application using Python (Flask) with Firebase
-              </li>
-              <li>- Designed productivity-tracking features</li>
-              <li>- Increased user engagement by approximately 25%</li>
-            </ul>
-          </div> */}
-
-          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-xl font-bold text-amber-200">
-              Mobile App - Involve Unity Integration
-            </h3>
-            <p className="text-amber-100 font-semibold">
-              ShopFur (Augmented Reality Project)
-            </p>
-            <p className="text-amber-200/80 text-sm mb-3">
-              January 2025 – December 2025
-            </p>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                - Developed mobile app using React Native (TypeScript) and
-                Firebase
-              </li>
-              <li>- Integrated Unity for augmented reality features</li>
-              <li>- Improved overall app stability and user experience</li>
-            </ul>
+            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-amber-200">
+                  Mobile App Dev - Thesis
+                </h3>
+                <p className="text-amber-100 font-semibold">
+                  ShopFur (Augmented Reality)
+                </p>
+                <p className="text-amber-200/80 text-sm mb-3">
+                  January 2025 – December 2025
+                </p>
+                <ul className="space-y-2 text-gray-400">
+                  <li>
+                    - Developed React Native features with Unity AR integration
+                  </li>
+                  <li>
+                    - Enabled immersive product previews and interactive
+                    shopping
+                  </li>
+                  <li>
+                    - Increased engagement through stable AR experience flows
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       ),
@@ -235,12 +242,12 @@ export default function Hero() {
                   <span className="px-3 py-1 rounded-full border border-amber-500/30 bg-slate-900/60">
                     API
                   </span>
-                  <span className="px-3 py-1 rounded-full border border-amber-500/30 bg-slate-900/60">
+                  {/* <span className="px-3 py-1 rounded-full border border-amber-500/30 bg-slate-900/60">
                     Ops
-                  </span>
+                  </span> */}
                 </div>
               </div>
-              <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 space-y-3 text-sm text-slate-300 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+              {/* <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 space-y-3 text-sm text-slate-300 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
                 <h4 className="text-xs uppercase tracking-[0.35em] text-slate-500 flex items-center gap-2">
                   Status · Team Ready
                   <span className="h-px w-8 bg-gradient-to-r from-amber-400/70 to-transparent" />
@@ -272,7 +279,7 @@ export default function Hero() {
                     </span>
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

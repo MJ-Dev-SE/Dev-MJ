@@ -37,7 +37,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
             Available
           </span>
         </div>
-        <p className="text-sm text-gray-400">Full Stack Developer · Manila</p>
+        <p className="text-sm text-gray-400">React Developer · Manila</p>
       </div>
 
       <nav className="mb-8 relative">
