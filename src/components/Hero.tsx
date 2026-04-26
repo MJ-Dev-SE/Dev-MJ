@@ -108,7 +108,7 @@ export default function Hero() {
                 <h3 className="text-xl font-bold text-amber-200">
                   React | Personal Project
                 </h3>
-                <p className="text-amber-100 font-semibold">EasyJobAStatus</p>
+                <p className="text-amber-100 font-semibold">EASYJOBAISTATUS</p>
                 <p className="text-amber-200/80 text-sm mb-3">2026</p>
                 <ul className="space-y-2 text-gray-400">
                   <li>

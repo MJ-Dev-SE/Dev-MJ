@@ -35,7 +35,7 @@ export default function Projects() {
             ctaLabel="Visit inventory"
           />
           <ProjectCard
-            title="EASYJOBASTATUS"
+            title="EASYJOBAISTATUS"
             description="AI-powered job application tracker and career assistant that centralizes opportunities, analyzes skill fit, and generates personalized follow-up strategies."
             tech={[
               "React 19",
@@ -52,7 +52,7 @@ export default function Projects() {
               "Automated follow-up and company research",
             ]}
             link="https://easyjobastatus.vercel.app/login"
-            ctaLabel="View EASYJOBASTATUS"
+            ctaLabel="View EASYJOBAISTATUS"
           />
 
           <ProjectCard
