@@ -79,6 +79,22 @@ export default function Projects() {
           />
 
           <ProjectCard
+            title="UI THINK"
+            description="A 2026 release UI guide that explains major UI terminology, sample patterns, when to apply or avoid them, and how standards-based documentation pairs with Gemini AI review."
+            tech={["React", "TypeScript", "Tailwind CSS", "Gemini AI"]}
+            projectStatus="Released"
+            timeline="2026"
+            highlights={[
+              "Terminology reference for UI design systems",
+              "Good vs bad UI usage with real examples",
+              "Documentation-first standards approach",
+              "AI-assisted guidance through Gemini",
+            ]}
+            link="https://ui-think.vercel.app/"
+            ctaLabel="View UI THINK"
+          />
+
+          <ProjectCard
             title="Basketball Playbook System"
             description="Web-based dashboard that catalogs plays, player roles, and rhythm for faster planning and rehearsals."
             tech={["React", "Tailwind", "Firebase"]}

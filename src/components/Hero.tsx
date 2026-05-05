@@ -177,6 +177,28 @@ export default function Hero() {
                 </ul>
               </div>
             </div>
+
+            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-amber-200">UI THINK</h3>
+                <p className="text-amber-100 font-semibold">
+                  UI Terminology & Standards Guide
+                </p>
+                <p className="text-amber-200/80 text-sm mb-3">2026 release</p>
+                <ul className="space-y-2 text-gray-400">
+                  <li>
+                    - Maps major UI terminology and prerequisite design concepts
+                  </li>
+                  <li>- Shows sample patterns and when to use or avoid them</li>
+                  <li>
+                    - Connects standards-driven documentation with UI decisions
+                  </li>
+                  <li>
+                    - Adds Gemini AI guidance for smarter interface reviews
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       ),
