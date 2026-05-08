@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const roles = useMemo(
     () => [
       "React Developer",
@@ -57,6 +58,54 @@ export default function Hero() {
     };
   }, [currentSlide, roles]);
 
+  const projects = [
+    {
+      title: "React | Personal Project",
+      subtitle: "EASYJOBAISTATUS",
+      timeline: "2026",
+      description: "Built a status dashboard for job tracking and team updates. Designed clear progress views, alerts, and timeline summaries. Delivered visibility that accelerates decision-making and handoff.",
+      highlights: [
+        "Built a status dashboard for job tracking and team updates",
+        "Designed clear progress views, alerts, and timeline summaries",
+        "Delivered visibility that accelerates decision-making and handoff",
+      ],
+    },
+    {
+      title: "UI / UX Developer | Intern",
+      subtitle: "PNP Inventory System",
+      timeline: "Dec 2025 – March 2026",
+      description: "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
+      highlights: [
+        "Aligned system workflows with PNP operations and reporting",
+        "Implemented secure role-based access and audit tracking",
+        "Optimized inventory sync for faster police logistics updates",
+      ],
+    },
+    {
+      title: "Mobile App Dev - Thesis",
+      subtitle: "ShopFur (Augmented Reality)",
+      timeline: "January 2025 – December 2025",
+      description: "Developed React Native features with Unity AR integration. Enabled immersive product previews and interactive shopping. Increased engagement through stable AR experience flows.",
+      highlights: [
+        "Developed React Native features with Unity AR integration",
+        "Enabled immersive product previews and interactive shopping",
+        "Increased engagement through stable AR experience flows",
+      ],
+    },
+    {
+      title: "UI THINK",
+      subtitle: "UI Terminology & Standards Guide",
+      timeline: "2026 release",
+      description: "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
+      highlights: [
+        "Maps major UI terminology and prerequisite design concepts",
+        "Shows sample patterns and when to use or avoid them",
+        "Connects standards-driven documentation with UI decisions",
+        "Adds Gemini AI guidance for smarter interface reviews",
+      ],
+    },
+  ];
+
   const slides = [
     {
       id: 0,
@@ -102,103 +151,28 @@ export default function Hero() {
             Experience
           </h2>
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-amber-200">
-                  React | Personal Project
+          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+            {projects.map((project, index) => (
+              <div
+                key={index}
+                className="bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-amber-400 hover:shadow-lg hover:shadow-amber-400/20 transition-all duration-300"
+              >
+                <h3 className="text-lg font-bold text-amber-200 mb-1">
+                  {project.title}
                 </h3>
-                <p className="text-amber-100 font-semibold">EASYJOBAISTATUS</p>
-                <p className="text-amber-200/80 text-sm mb-3">2026</p>
-                <ul className="space-y-2 text-gray-400">
-                  <li>
-                    - Built a status dashboard for job tracking and team updates
-                  </li>
-                  <li>
-                    - Designed clear progress views, alerts, and timeline
-                    summaries
-                  </li>
-                  <li>
-                    - Delivered visibility that accelerates decision-making and
-                    handoff
-                  </li>
-                </ul>
+                <p className="text-amber-100 font-semibold text-sm mb-1">{project.subtitle}</p>
+                <p className="text-amber-200/80 text-xs mb-3">{project.timeline}</p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  {project.description}
+                </p>
+                <button 
+                  className="text-amber-300 text-xs uppercase tracking-wider hover:text-amber-100 transition-colors"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  See More →
+                </button>
               </div>
-            </div>
-
-            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-amber-200">
-                  UI / UX Developer | Intern
-                </h3>
-                <p className="text-amber-100 font-semibold">
-                  PNP Inventory System
-                </p>
-                <p className="text-amber-200/80 text-sm mb-3">
-                  Dec 2025 – March 2026
-                </p>
-                <ul className="space-y-2 text-gray-400">
-                  <li>
-                    - Aligned system workflows with PNP operations and reporting
-                  </li>
-                  <li>
-                    - Implemented secure role-based access and audit tracking
-                  </li>
-                  <li>
-                    - Optimized inventory sync for faster police logistics
-                    updates
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-amber-200">
-                  Mobile App Dev - Thesis
-                </h3>
-                <p className="text-amber-100 font-semibold">
-                  ShopFur (Augmented Reality)
-                </p>
-                <p className="text-amber-200/80 text-sm mb-3">
-                  January 2025 – December 2025
-                </p>
-                <ul className="space-y-2 text-gray-400">
-                  <li>
-                    - Developed React Native features with Unity AR integration
-                  </li>
-                  <li>
-                    - Enabled immersive product previews and interactive
-                    shopping
-                  </li>
-                  <li>
-                    - Increased engagement through stable AR experience flows
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-amber-200">UI THINK</h3>
-                <p className="text-amber-100 font-semibold">
-                  UI Terminology & Standards Guide
-                </p>
-                <p className="text-amber-200/80 text-sm mb-3">2026 release</p>
-                <ul className="space-y-2 text-gray-400">
-                  <li>
-                    - Maps major UI terminology and prerequisite design concepts
-                  </li>
-                  <li>- Shows sample patterns and when to use or avoid them</li>
-                  <li>
-                    - Connects standards-driven documentation with UI decisions
-                  </li>
-                  <li>
-                    - Adds Gemini AI guidance for smarter interface reviews
-                  </li>
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       ),
@@ -379,6 +353,47 @@ export default function Hero() {
           </a>
         </div>
       </div>
+
+      {/* Modal */}
+      {selectedProject && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div 
+            className="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h3 className="text-2xl font-bold text-amber-200 mb-2">{selectedProject.title}</h3>
+                <p className="text-amber-100 font-semibold text-lg">{selectedProject.subtitle}</p>
+                <p className="text-amber-200/80 text-sm">{selectedProject.timeline}</p>
+              </div>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="text-slate-400 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <p className="text-gray-300 leading-relaxed">{selectedProject.description}</p>
+              <div>
+                <h4 className="text-amber-200 font-semibold mb-3">Key Highlights:</h4>
+                <ul className="space-y-2 text-gray-400">
+                  {selectedProject.highlights.map((highlight: string, index: number) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="h-2 w-2 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
