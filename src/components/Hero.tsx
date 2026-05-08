@@ -63,7 +63,8 @@ export default function Hero() {
       title: "React | Personal Project",
       subtitle: "EASYJOBAISTATUS",
       timeline: "2026",
-      description: "Built a status dashboard for job tracking and team updates. Designed clear progress views, alerts, and timeline summaries. Delivered visibility that accelerates decision-making and handoff.",
+      description:
+        "Built a status dashboard for job tracking and team updates. Designed clear progress views, alerts, and timeline summaries. Delivered visibility that accelerates decision-making and handoff.",
       highlights: [
         "Built a status dashboard for job tracking and team updates",
         "Designed clear progress views, alerts, and timeline summaries",
@@ -74,7 +75,8 @@ export default function Hero() {
       title: "UI / UX Developer | Intern",
       subtitle: "PNP Inventory System",
       timeline: "Dec 2025 – March 2026",
-      description: "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
+      description:
+        "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
       highlights: [
         "Aligned system workflows with PNP operations and reporting",
         "Implemented secure role-based access and audit tracking",
@@ -85,7 +87,8 @@ export default function Hero() {
       title: "Mobile App Dev - Thesis",
       subtitle: "ShopFur (Augmented Reality)",
       timeline: "January 2025 – December 2025",
-      description: "Developed React Native features with Unity AR integration. Enabled immersive product previews and interactive shopping. Increased engagement through stable AR experience flows.",
+      description:
+        "Developed React Native features with Unity AR integration. Enabled immersive product previews and interactive shopping. Increased engagement through stable AR experience flows.",
       highlights: [
         "Developed React Native features with Unity AR integration",
         "Enabled immersive product previews and interactive shopping",
@@ -96,7 +99,8 @@ export default function Hero() {
       title: "UI THINK",
       subtitle: "UI Terminology & Standards Guide",
       timeline: "2026 release",
-      description: "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
+      description:
+        "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
       highlights: [
         "Maps major UI terminology and prerequisite design concepts",
         "Shows sample patterns and when to use or avoid them",
@@ -160,12 +164,23 @@ export default function Hero() {
                 <h3 className="text-lg font-bold text-amber-200 mb-1">
                   {project.title}
                 </h3>
-                <p className="text-amber-100 font-semibold text-sm mb-1">{project.subtitle}</p>
-                <p className="text-amber-200/80 text-xs mb-3">{project.timeline}</p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                <p className="text-amber-100 font-semibold text-sm mb-1">
+                  {project.subtitle}
+                </p>
+                <p className="text-amber-200/80 text-xs mb-3">
+                  {project.timeline}
+                </p>
+                <p
+                  className="text-gray-400 text-sm leading-relaxed mb-3 overflow-hidden"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
                   {project.description}
                 </p>
-                <button 
+                <button
                   className="text-amber-300 text-xs uppercase tracking-wider hover:text-amber-100 transition-colors"
                   onClick={() => setSelectedProject(project)}
                 >
@@ -356,19 +371,25 @@ export default function Hero() {
 
       {/* Modal */}
       {selectedProject && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={() => setSelectedProject(null)}
         >
-          <div 
+          <div
             className="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h3 className="text-2xl font-bold text-amber-200 mb-2">{selectedProject.title}</h3>
-                <p className="text-amber-100 font-semibold text-lg">{selectedProject.subtitle}</p>
-                <p className="text-amber-200/80 text-sm">{selectedProject.timeline}</p>
+                <h3 className="text-2xl font-bold text-amber-200 mb-2">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-amber-100 font-semibold text-lg">
+                  {selectedProject.subtitle}
+                </p>
+                <p className="text-amber-200/80 text-sm">
+                  {selectedProject.timeline}
+                </p>
               </div>
               <button
                 onClick={() => setSelectedProject(null)}
@@ -378,16 +399,22 @@ export default function Hero() {
               </button>
             </div>
             <div className="space-y-4">
-              <p className="text-gray-300 leading-relaxed">{selectedProject.description}</p>
+              <p className="text-gray-300 leading-relaxed">
+                {selectedProject.description}
+              </p>
               <div>
-                <h4 className="text-amber-200 font-semibold mb-3">Key Highlights:</h4>
+                <h4 className="text-amber-200 font-semibold mb-3">
+                  Key Highlights:
+                </h4>
                 <ul className="space-y-2 text-gray-400">
-                  {selectedProject.highlights.map((highlight: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="h-2 w-2 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
-                      {highlight}
-                    </li>
-                  ))}
+                  {selectedProject.highlights.map(
+                    (highlight: string, index: number) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="h-2 w-2 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
+                        {highlight}
+                      </li>
+                    ),
+                  )}
                 </ul>
               </div>
             </div>
