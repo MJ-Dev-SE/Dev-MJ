@@ -62,6 +62,22 @@ const aiCertifications: Certification[] = [
     filePath: "/certifications/AWS-UPSKILL.pdf",
   },
   {
+    title: "Databricks: Get Started with Databricks for Generative AI",
+    issuer: "Databricks",
+    date: "2026",
+    brief:
+      "Introductory certification covering the Databricks platform and its integrated tools for building and deploying generative AI workflows.",
+    filePath: "/certifications/databricks.pdf",
+  },
+  {
+    title: "Google Cloud: Introduction to Responsible AI",
+    issuer: "Google Cloud",
+    date: "2026",
+    brief:
+      "Foundational certificate covering responsible AI principles, ethical considerations, and basic AI concepts in the Google Cloud ecosystem.",
+    filePath: "/certifications/google.pdf",
+  },
+  {
     title: "Claude 101: Practical AI Integration",
     issuer: "Anthropic",
     date: "2026",
