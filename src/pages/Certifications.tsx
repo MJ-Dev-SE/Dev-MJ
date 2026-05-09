@@ -78,12 +78,20 @@ const aiCertifications: Certification[] = [
     filePath: "/certifications/google.pdf",
   },
   {
-    title: "Claude 101: Practical AI Integration",
+    title: "Claude 101",
     issuer: "Anthropic",
     date: "2026",
     brief:
-      "Comprehensive guide on leveraging Claude AI effectively in daily work and personal tasks, including best practices and real-world applications.",
+      "I also completed a lesson focused on the different Claude products and workflows, where I learned when and how to use tools such as Claude Code, Claude for Slack, Excel, PowerPoint, and Chrome. The lesson enhanced my understanding of Claude Desktop modes — Chat, Cowork, and Code — including their specific use cases, features, and workflow advantages. Additionally, I gained knowledge about artifacts, how to share or publish them, and how to troubleshoot common issues related to their usage.",
     filePath: "/certifications/CLAUDE-101.pdf",
+  },
+  {
+    title: "Claude Code 101",
+    issuer: "Anthropic",
+    date: "2026",
+    brief:
+      "I completed the Claude Code 101 course, where I learned how AI coding agents work and how they differ from traditional chat-based AI tools. I gained hands-on experience in setting up and using Claude Code across different environments, managing workflows, handling context efficiently, and creating custom subagents, hooks, and integrations through MCP servers. This course also improved my understanding of AI-assisted development and how to apply it effectively in real-world software engineering workflows.",
+    filePath: "/certifications/claude-code-101.pdf",
   },
 ];
 
