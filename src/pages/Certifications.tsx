@@ -93,6 +93,22 @@ const aiCertifications: Certification[] = [
       "I completed the Claude Code 101 course, where I learned how AI coding agents work and how they differ from traditional chat-based AI tools. I gained hands-on experience in setting up and using Claude Code across different environments, managing workflows, handling context efficiently, and creating custom subagents, hooks, and integrations through MCP servers. This course also improved my understanding of AI-assisted development and how to apply it effectively in real-world software engineering workflows.",
     filePath: "/certifications/claude-code-101.pdf",
   },
+  {
+    title: "Claude Code in Action",
+    issuer: "Anthropic",
+    date: "2026",
+    brief:
+      "Focused on Claude Code in Action, this certification highlights how Claude hooks and code agents help identify what to avoid in a codebase, tackle harder engineering tasks, extend workflows with custom integrations, and improve overall system security through safer, context-aware automation.",
+    filePath: "/certifications/CLAUDE-CODE-IN-ACTION.pdf",
+  },
+  {
+    title: "AI Fluency: AI Capabilities & Limitations",
+    issuer: "Anthropic",
+    date: "2026",
+    brief:
+      "This certification covers diagnosing AI failures, using AI for productivity rather than passive consumption, and understanding prompt design by positioning major instructions effectively to get reliable, actionable results.",
+    filePath: "/certifications/AI-FLUENCY-CAPABILITIES-LIMITATIONS.pdf",
+  },
 ];
 
 type CertificationType = "fundamental" | "ai";
