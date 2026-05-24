@@ -1,8 +1,18 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 
+type TechStackGroup = {
+  title: string;
+  items: {
+    name: string;
+    icon: string;
+  }[];
+};
+
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
+  const [portraitLoaded, setPortraitLoaded] = useState(true);
+  const [activeTechGroup, setActiveTechGroup] = useState(0);
   const roles = useMemo(
     () => [
       "React Developer",
@@ -110,6 +120,93 @@ export default function Hero() {
     },
   ];
 
+  const techStackGroups: TechStackGroup[] = [
+    {
+      title: "Programming Languages",
+      items: [
+        {
+          name: "HTML5",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        },
+        {
+          name: "CSS3",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+        },
+        {
+          name: "JavaScript",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        },
+        {
+          name: "TypeScript",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        },
+        {
+          name: "PHP",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+        },
+      ],
+    },
+    {
+      title: "Libraries & UI Frameworks",
+      items: [
+        {
+          name: "React",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        },
+        {
+          name: "React Native",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        },
+        {
+          name: "Bootstrap",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
+        },
+        {
+          name: "Tailwind CSS",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+        },
+      ],
+    },
+    {
+      title: "Tools",
+      items: [
+        {
+          name: "Git",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        },
+        {
+          name: "VS Code",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        },
+        // {
+        //   name: "Figma",
+        //   icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        // },
+        {
+          name: "Node.js",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        },
+      ],
+    },
+    {
+      title: "Database & Backend",
+      items: [
+        {
+          name: "MySQL",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+        },
+        {
+          name: "Firebase",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+        },
+        {
+          name: "Supabase",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
+        },
+      ],
+    },
+  ];
+
   const slides = [
     {
       id: 0,
@@ -126,6 +223,13 @@ export default function Hero() {
           <div className="flex justify-center gap-8 text-gray-400 text-sm">
             <div>📞 0993 756 4973</div>
             <div>📧 markjerohm@gmail.com</div>
+            <a
+              href="/resume.pdf"
+              download="Mark-Jerohm-Castro-Resume.pdf"
+              className="text-amber-100 transition-colors hover:text-amber-300"
+            >
+              Download CV
+            </a>
           </div>
         </div>
       ),
@@ -206,6 +310,12 @@ export default function Hero() {
     setCurrentSlide(index);
   };
 
+  const activeStack = techStackGroups[activeTechGroup];
+
+  const nextTechGroup = () => {
+    setActiveTechGroup((prev) => (prev + 1) % techStackGroups.length);
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center px-4">
       <div className="w-full max-w-6xl relative">
@@ -224,16 +334,120 @@ export default function Hero() {
               </div>
               <div>{slides[currentSlide].content}</div>
               {currentSlide === 0 && (
-                <div className="text-sm leading-relaxed text-slate-200 border border-slate-800 bg-white/5 rounded-2xl px-6 py-4 backdrop-blur">
-                  <p className="font-semibold text-white">Current focus</p>
-                  <p className="text-slate-300">
-                    Refining a basketball playbook tool—mapping plays, player
-                    roles, and tempo so adjustments stay quick and repeatable.
-                  </p>
+                <div className="space-y-4">
+                  <div className="text-sm leading-relaxed text-slate-200 border border-slate-800 bg-white/5 rounded-2xl px-6 py-4 backdrop-blur">
+                    <p className="font-semibold text-white">Current focus</p>
+                    <p className="text-slate-300">
+                      Refining a basketball playbook tool—mapping plays, player
+                      roles, and tempo so adjustments stay quick and repeatable.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-amber-400/25 bg-slate-950/70 p-5 shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
+                    <div className="mb-4 flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-amber-300">
+                          Stack Snapshot
+                        </p>
+                        <h3 className="mt-2 text-xl font-semibold text-white">
+                          {activeStack.title}
+                        </h3>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={nextTechGroup}
+                        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-amber-400/40 bg-amber-400/10 text-xl font-semibold text-amber-200 transition-all duration-300 hover:border-amber-300 hover:bg-amber-400 hover:text-slate-950 hover:shadow-[0_0_24px_rgba(251,191,36,0.25)]"
+                        aria-label="Next stack category"
+                      >
+                        &gt;
+                      </button>
+                    </div>
+
+                    <div
+                      key={activeStack.title}
+                      className="tech-stack-slide grid grid-cols-2 gap-2 sm:grid-cols-3"
+                    >
+                      {activeStack.items.map((item) => (
+                        <div
+                          key={`${activeStack.title}-${item.name}`}
+                          className="flex min-h-12 items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-400/40 hover:bg-slate-900"
+                        >
+                          <img
+                            src={item.icon}
+                            alt=""
+                            aria-hidden="true"
+                            className="h-6 w-6 shrink-0"
+                            loading="lazy"
+                          />
+                          <span className="text-xs font-medium text-slate-200">
+                            {item.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-4 flex items-center gap-2">
+                      {techStackGroups.map((group, index) => (
+                        <button
+                          key={group.title}
+                          type="button"
+                          onClick={() => setActiveTechGroup(index)}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            activeTechGroup === index
+                              ? "w-8 bg-amber-300"
+                              : "w-2 bg-slate-700 hover:bg-slate-500"
+                          }`}
+                          aria-label={`Show ${group.title}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
             <div className="space-y-6">
+              <div className="relative overflow-hidden rounded-2xl border border-amber-400/30 bg-slate-950/70 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+                <div className="aspect-[4/5] min-h-[380px] bg-gradient-to-br from-slate-900 via-slate-950 to-amber-950/40">
+                  {portraitLoaded ? (
+                    <img
+                      src="/portrait.jpg"
+                      alt="Mark Jerohm Castro"
+                      className="h-full w-full object-cover object-center"
+                      onError={() => setPortraitLoaded(false)}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center p-8 text-center">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.35em] text-amber-300">
+                          Portrait
+                        </p>
+                        <p className="mt-4 text-5xl font-extrabold text-white">
+                          MJC
+                        </p>
+                        <p className="mt-4 text-sm leading-relaxed text-slate-300">
+                          Add your photo at public/portrait.jpg to complete this
+                          hero section.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/90 to-transparent p-6">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-amber-300">
+                        Mark Jerohm Castro
+                      </p>
+                      <h3 className="mt-2 text-2xl font-semibold text-white">
+                        Web + Mobile Developer
+                      </h3>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-emerald-400/40 bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-200">
+                      Available
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div className="bg-white/5 border border-amber-400/30 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400">
                   <span>Mode</span>
