@@ -14,6 +14,10 @@ export default function Contact() {
               Want to work together or discuss a project? Send me a message
               below.
             </p>
+            <p className="text-slate-400 text-lg max-w-3xl mx-auto">
+              There's time that server is shutdown you can message me directly
+              in this email: markjerohm@gmail.com
+            </p>
             <div className="mx-auto mt-6 h-1 w-1/2 rounded-full bg-gradient-to-r from-amber-500/40 via-amber-400 to-slate-800"></div>
           </div>
 

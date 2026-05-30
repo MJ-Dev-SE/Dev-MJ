@@ -122,7 +122,7 @@ export default function Hero() {
 
   const techStackGroups: TechStackGroup[] = [
     {
-      title: "Programming Languages",
+      title: "Web Technologies & Programming Languages",
       items: [
         {
           name: "HTML5",
