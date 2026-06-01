@@ -224,11 +224,16 @@ export default function Hero() {
             <div>📞 0993 756 4973</div>
             <div>📧 markjerohm@gmail.com</div>
             <a
-              href="/resume.pdf"
-              download="Mark-Jerohm-Castro-Resume.pdf"
+              href="https://www.linkedin.com/in/mark-jerohm-castro-68b3b03b7"
               className="text-amber-100 transition-colors hover:text-amber-300"
             >
               Download CV
+            </a>
+            <a
+              href="https://www.linkedin.com/in/mark-jerohm-castro-68b3b03b7"
+              className="text-amber-100 transition-colors hover:text-amber-300"
+            >
+              LinkedIn URL
             </a>
           </div>
         </div>
