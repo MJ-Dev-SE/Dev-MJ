@@ -1,4 +1,10 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  staggerContainer,
+  staggerItem,
+  revealViewport,
+} from "../components/motion";
 
 type Certification = {
   title: string;
@@ -215,14 +221,22 @@ export default function Certifications() {
         {/* Fundamental Certifications Tab */}
         {activeTab === "fundamental" && (
           <div className="mb-16 animate-fadeIn transition-opacity duration-500">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={revealViewport}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
               {fundamentalCertifications.map((certification) => (
-                <CertificationCard
+                <motion.div
                   key={`${certification.title}-${certification.date}`}
-                  certification={certification}
-                />
+                  variants={staggerItem}
+                >
+                  <CertificationCard certification={certification} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         )}
 
@@ -234,14 +248,22 @@ export default function Certifications() {
                 <p className="text-amber-300 text-lg">Coming soon...</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={revealViewport}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
                 {aiCertifications.map((certification) => (
-                  <CertificationCard
+                  <motion.div
                     key={`${certification.title}-${certification.date}`}
-                    certification={certification}
-                  />
+                    variants={staggerItem}
+                  >
+                    <CertificationCard certification={certification} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             )}
           </div>
         )}

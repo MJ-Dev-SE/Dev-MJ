@@ -1,0 +1,33 @@
+# Protected files — Claude is BLOCKED from Write/Edit/MultiEdit on anything matching these.
+# Reading/verifying these files is still allowed; only modifications are denied.
+#
+# One glob pattern per line. Lines starting with "#" and blank lines are ignored.
+#   *        matches anything except "/"   (e.g.  *.pem)
+#   **       matches anything incl. "/"    (e.g.  config/**/*.secret)
+#   ?        matches a single char
+# A pattern with no "/" matches by file name anywhere in the project (e.g. ".env" hits src/.env too).
+# A pattern with a "/" is matched against the path relative to the project root.
+
+# --- Environment / secrets ---
+.env
+.env.*
+*.local
+
+# --- Keys & certificates ---
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+
+# --- Credentials / service accounts ---
+**/secrets/**
+*credentials*.json
+serviceaccount*.json
+
+# --- Lockfiles & CI you'd rather edit by hand (uncomment to enable) ---
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+# .github/workflows/**

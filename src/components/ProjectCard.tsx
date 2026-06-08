@@ -22,7 +22,24 @@ export default function ProjectCard({
   links,
 }: Props) {
   const cardClass =
-    "group relative rounded-2xl border border-slate-700 p-6 bg-gradient-to-br from-slate-950 to-slate-900 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-400/20 transition-all duration-300 cursor-default";
+    "group relative overflow-hidden rounded-2xl border border-slate-700 p-6 bg-gradient-to-br from-slate-950 to-slate-900 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-400/20 transition-all duration-300 cursor-default";
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--x", `${event.clientX - rect.left}px`);
+    event.currentTarget.style.setProperty("--y", `${event.clientY - rect.top}px`);
+  };
+
+  const spotlight = (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      style={{
+        background:
+          "radial-gradient(280px circle at var(--x) var(--y), rgba(251,191,36,0.15), transparent 70%)",
+      }}
+    />
+  );
 
   const statusRow = projectStatus || timeline ? (
     <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.35em] text-amber-200/80 mb-3">
@@ -70,33 +87,36 @@ export default function ProjectCard({
   );
 
   return (
-    <div className={cardClass}>
-      {content}
-      {links && links.length > 0 && (
-        <div className="mt-5 flex flex-wrap gap-3">
-          {links.map((item) => (
-            <a
-              key={item.url}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full border border-amber-400/40 px-4 py-2 text-[0.65rem] uppercase tracking-[0.3em] text-amber-200 bg-amber-500/10 hover:bg-amber-400 hover:text-black transition-colors duration-200"
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      )}
-      {link && (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/60 px-4 py-2 text-sm font-semibold tracking-[0.3em] uppercase text-amber-100 hover:bg-amber-400 hover:text-black transition-colors duration-200"
-        >
-          {ctaLabel || "View live"}
-        </a>
-      )}
+    <div className={cardClass} onMouseMove={handleMouseMove}>
+      {spotlight}
+      <div className="relative z-10">
+        {content}
+        {links && links.length > 0 && (
+          <div className="mt-5 flex flex-wrap gap-3">
+            {links.map((item) => (
+              <a
+                key={item.url}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-full border border-amber-400/40 px-4 py-2 text-[0.65rem] uppercase tracking-[0.3em] text-amber-200 bg-amber-500/10 hover:bg-amber-400 hover:text-black transition-colors duration-200"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        )}
+        {link && (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/60 px-4 py-2 text-sm font-semibold tracking-[0.3em] uppercase text-amber-100 hover:bg-amber-400 hover:text-black transition-colors duration-200"
+          >
+            {ctaLabel || "View live"}
+          </a>
+        )}
+      </div>
     </div>
   );
 }
