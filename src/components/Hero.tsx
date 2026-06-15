@@ -192,6 +192,10 @@ export default function Hero() {
       title: "Database & Backend",
       items: [
         {
+          name: "Laravel",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+        },
+        {
           name: "MySQL",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
         },
@@ -213,18 +217,19 @@ export default function Hero() {
       title: "Welcome",
       content: (
         <div className="space-y-6">
-          <h1 className="text-6xl font-bold text-amber-100 min-h-[72px]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-amber-100 break-words">
             MARK JEROHM CASTRO
           </h1>
-          <p className="text-2xl text-amber-200 min-h-[40px]">
+          <p className="text-xl sm:text-2xl text-amber-200 min-h-[40px]">
             {typedRole}
             <span className="animate-pulse">|</span>
           </p>
-          <div className="flex justify-center gap-8 text-gray-400 text-sm">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-gray-400 text-sm">
             <div>📞 0993 756 4973</div>
             <div>📧 markjerohm@gmail.com</div>
             <a
-              href="https://www.linkedin.com/in/mark-jerohm-castro-68b3b03b7"
+              href="/resume.pdf"
+              download="Mark-Jerohm-Castro-CV.pdf"
               className="text-amber-100 transition-colors hover:text-amber-300"
             >
               Download CV

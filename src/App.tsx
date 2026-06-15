@@ -14,6 +14,7 @@ import Projects from "./pages/Projects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Certifications from "./pages/Certifications";
+import AuroraField from "./components/AuroraField";
 import { pageTransition } from "./components/motion";
 
 function AnimatedRoutes() {
@@ -47,7 +48,8 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-slate-950 text-white">
+      <AuroraField />
+      <div className="relative z-0 min-h-screen flex flex-col text-white">
         <div className="flex flex-1">
           <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
