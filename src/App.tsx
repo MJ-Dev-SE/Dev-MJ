@@ -7,15 +7,10 @@ import {
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
+import LoadingScreen from "./components/LoadingScreen";
 import Home from "./pages/Home";
-import Projects from "./pages/Projects";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Certifications from "./pages/Certifications";
-import AuroraField from "./components/AuroraField";
-import { pageTransition } from "./components/motion";
+import { pageTransition, pageEntrance } from "./components/motion";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -31,10 +26,6 @@ function AnimatedRoutes() {
       >
         <Routes location={location}>
           <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/certifications" element={<Certifications />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -42,35 +33,31 @@ function AnimatedRoutes() {
 }
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const [loading, setLoading] = useState(true);
 
   return (
     <Router>
-      <AuroraField />
-      <div className="relative z-0 min-h-screen flex flex-col text-white">
-        <div className="flex flex-1">
-          <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-beige-100 via-beige-50 to-beige-200" />
 
-          <div className="flex-1 flex flex-col">
-            <Navbar toggleSidebar={toggleSidebar} />
-
-            <main className="flex-1 p-6">
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <LoadingScreen key="loading" onFinish={() => setLoading(false)} />
+        ) : (
+          <motion.div
+            key="app"
+            variants={pageEntrance}
+            initial="hidden"
+            animate="show"
+            className="relative z-0 flex min-h-screen flex-col text-stone-800"
+          >
+            <Navbar />
+            <main className="flex-1">
               <AnimatedRoutes />
             </main>
-          </div>
-        </div>
-
-        <Footer />
-
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-30"
-            onClick={toggleSidebar}
-          />
+            <Footer />
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </Router>
   );
 }

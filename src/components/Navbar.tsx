@@ -1,38 +1,203 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-interface NavbarProps {
-  toggleSidebar: () => void;
-}
+type NavChild = { label: string; id: string };
+type NavItem = { label: string; id: string; children?: NavChild[] };
 
-export default function Navbar({ toggleSidebar }: NavbarProps) {
+const navItems: NavItem[] = [
+  { label: "Home", id: "home" },
+  { label: "About", id: "about" },
+  { label: "Skills", id: "skills" },
+  {
+    label: "Experience",
+    id: "experience",
+    children: [
+      { label: "Projects", id: "projects" },
+      { label: "Certifications", id: "certifications" },
+    ],
+  },
+  { label: "Contact", id: "contact" },
+];
+
+const allSectionIds = navItems.flatMap((item) => [
+  item.id,
+  ...(item.children?.map((child) => child.id) ?? []),
+]);
+
+export default function Navbar() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const [activeId, setActiveId] = useState("home");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    const sections = allSectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [isHome]);
+
+  const closeMobile = () => setMobileOpen(false);
+
+  const pillClass = (active: boolean) =>
+    `rounded-full px-3 py-2 text-sm transition-colors ${
+      isHome && active
+        ? "bg-clay-200 font-semibold text-clay-900"
+        : "font-medium text-stone-600 hover:bg-beige-200/70 hover:text-clay-800"
+    }`;
+
+  const dropdownItemClass = (active: boolean) =>
+    `block rounded-lg px-3 py-2 text-sm transition-colors ${
+      isHome && active
+        ? "bg-clay-200 font-semibold text-clay-900"
+        : "font-medium text-stone-600 hover:bg-beige-200/70 hover:text-clay-800"
+    }`;
+
+  const isItemActive = (item: NavItem) =>
+    activeId === item.id ||
+    (item.children?.some((child) => child.id === activeId) ?? false);
+
   return (
-    <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur border-b border-slate-800">
-      <div className="px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-md hover:bg-slate-800 transition-colors"
-            aria-label="Toggle sidebar"
+    <nav className="sticky top-0 z-40 border-b border-beige-300 bg-beige-50/85 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-clay-700 text-sm font-bold text-azure">
+            MJ
+          </span>
+          <span className="hidden font-semibold text-stone-800 sm:inline">
+            Mark Jerohm Castro
+          </span>
+        </Link>
+
+        <div className="hidden items-center gap-0.5 md:flex">
+          {navItems.map((item) =>
+            item.children ? (
+              <div key={item.id} className="group relative">
+                <a
+                  href={`/#${item.id}`}
+                  className={`${pillClass(isItemActive(item))} inline-flex items-center gap-1`}
+                >
+                  {item.label}
+                  <svg
+                    className="h-3 w-3 transition-transform duration-200 group-hover:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </a>
+                <div className="invisible absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                  <div className="min-w-[190px] rounded-xl border border-beige-200 bg-beige-50 p-1.5 shadow-lg shadow-beige-900/10">
+                    {item.children.map((child) => (
+                      <a
+                        key={child.id}
+                        href={`/#${child.id}`}
+                        className={dropdownItemClass(activeId === child.id)}
+                      >
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                key={item.id}
+                href={`/#${item.id}`}
+                className={pillClass(isItemActive(item))}
+              >
+                {item.label}
+              </a>
+            ),
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setMobileOpen((open) => !open)}
+          className="rounded-md p-2 text-stone-700 transition-colors hover:bg-beige-200/70 md:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            {mobileOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M4 6h16M4 12h16M4 18h16"
               />
-            </svg>
-          </button>
-          <Link to="/" className="font-bold text-lg">
-            Jerohm.dev
-          </Link>
-        </div>
+            )}
+          </svg>
+        </button>
       </div>
+
+      {mobileOpen && (
+        <div className="border-t border-beige-300 bg-beige-50 px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <div key={item.id}>
+                <a
+                  href={`/#${item.id}`}
+                  onClick={closeMobile}
+                  className={`block ${pillClass(isItemActive(item))}`}
+                >
+                  {item.label}
+                </a>
+                {item.children && (
+                  <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-beige-300 pl-3">
+                    {item.children.map((child) => (
+                      <a
+                        key={child.id}
+                        href={`/#${child.id}`}
+                        onClick={closeMobile}
+                        className={`block ${pillClass(activeId === child.id)}`}
+                      >
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

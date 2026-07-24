@@ -25,5 +25,17 @@ export const pageTransition: Variants = {
   exit: { opacity: 0, y: -12, transition: { duration: 0.25, ease: "easeIn" } },
 };
 
+// One-shot "expand from center" entrance played once after the loading
+// screen finishes. Mount-triggered (no exit side), so no AnimatePresence
+// is needed for this one.
+export const pageEntrance: Variants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
 // Viewport config so reveals only fire once, slightly before fully in view.
 export const revealViewport = { once: true, amount: 0.15 } as const;

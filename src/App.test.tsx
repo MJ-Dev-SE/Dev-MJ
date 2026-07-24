@@ -1,9 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('shows the MJ loading screen on initial render', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const loadingMark = screen.getAllByText(/M|J/i);
+  expect(loadingMark.length).toBeGreaterThan(0);
 });

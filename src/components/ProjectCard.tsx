@@ -22,7 +22,7 @@ export default function ProjectCard({
   links,
 }: Props) {
   const cardClass =
-    "group relative overflow-hidden rounded-2xl border border-slate-700 p-6 bg-gradient-to-br from-slate-950 to-slate-900 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-400/20 transition-all duration-300 cursor-default";
+    "group relative overflow-hidden rounded-2xl border border-beige-300 p-6 bg-gradient-to-br from-white to-beige-50 hover:border-beige-500 hover:shadow-xl hover:shadow-beige-400/20 transition-all duration-300 cursor-default";
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -36,18 +36,18 @@ export default function ProjectCard({
       className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       style={{
         background:
-          "radial-gradient(280px circle at var(--x) var(--y), rgba(251,191,36,0.15), transparent 70%)",
+          "radial-gradient(280px circle at var(--x) var(--y), rgba(169,138,91,0.16), transparent 70%)",
       }}
     />
   );
 
   const statusRow = projectStatus || timeline ? (
-    <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.35em] text-amber-200/80 mb-3">
-      <span className="px-3 py-1 rounded-full border border-amber-300/30 bg-amber-500/10 text-amber-100">
+    <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.35em] text-beige-700/90 mb-3">
+      <span className="px-3 py-1 rounded-full border border-beige-400/50 bg-beige-100 text-beige-800">
         {projectStatus || "Status"}
       </span>
       {timeline && (
-        <span className="text-amber-200/90 text-[0.65rem]">{timeline}</span>
+        <span className="text-beige-700/90 text-[0.65rem]">{timeline}</span>
       )}
     </div>
   ) : null;
@@ -55,29 +55,29 @@ export default function ProjectCard({
   const content = (
     <>
       {statusRow}
-      <h3 className="text-xl font-bold text-white transition-colors duration-300">
+      <h3 className="text-xl font-bold text-stone-800 transition-colors duration-300">
         {title}
       </h3>
-      <p className="text-slate-300 mt-3 leading-relaxed">{description}</p>
+      <p className="text-stone-600 mt-3 leading-relaxed">{description}</p>
 
       <div className="flex flex-wrap gap-2 mt-5">
         {tech.map((item) => (
           <span
             key={item}
-            className="text-[0.65rem] px-3 py-1 rounded-full border border-amber-500/40 text-amber-100 bg-amber-500/10"
+            className="text-[0.65rem] px-3 py-1 rounded-full border border-beige-400/60 text-beige-800 bg-beige-100"
           >
             {item}
           </span>
         ))}
       </div>
-      <div className="mt-5 h-1.5 w-full bg-slate-900 rounded-full overflow-hidden">
-        <div className="h-full w-2/3 bg-gradient-to-r from-amber-400 to-amber-500" />
+      <div className="mt-5 h-1.5 w-full bg-beige-200 rounded-full overflow-hidden">
+        <div className="h-full w-2/3 bg-gradient-to-r from-beige-500 to-beige-700" />
       </div>
       {highlights && highlights.length > 0 && (
-        <ul className="mt-4 space-y-2 text-xs text-slate-300">
+        <ul className="mt-4 space-y-2 text-xs text-stone-600">
           {highlights.map((item) => (
             <li key={item} className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-amber-400" />
+              <span className="h-2 w-2 rounded-full bg-beige-600" />
               {item}
             </li>
           ))}
@@ -99,7 +99,7 @@ export default function ProjectCard({
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full border border-amber-400/40 px-4 py-2 text-[0.65rem] uppercase tracking-[0.3em] text-amber-200 bg-amber-500/10 hover:bg-amber-400 hover:text-black transition-colors duration-200"
+                className="inline-flex items-center rounded-full border border-clay-400 px-4 py-2 text-[0.65rem] uppercase tracking-[0.3em] text-clay-700 bg-clay-50 hover:bg-clay-700 hover:text-azure transition-colors duration-200"
               >
                 {item.label}
               </a>
@@ -111,7 +111,7 @@ export default function ProjectCard({
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/60 px-4 py-2 text-sm font-semibold tracking-[0.3em] uppercase text-amber-100 hover:bg-amber-400 hover:text-black transition-colors duration-200"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-clay-700 px-4 py-2 text-sm font-semibold tracking-[0.3em] uppercase text-azure hover:bg-clay-800 transition-colors duration-200"
           >
             {ctaLabel || "View live"}
           </a>

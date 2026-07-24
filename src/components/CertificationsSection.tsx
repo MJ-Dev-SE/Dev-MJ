@@ -1,10 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  staggerContainer,
-  staggerItem,
-  revealViewport,
-} from "../components/motion";
 
 type Certification = {
   title: string;
@@ -119,7 +113,7 @@ const aiCertifications: Certification[] = [
 
 type CertificationType = "fundamental" | "ai";
 
-export default function Certifications() {
+export default function CertificationsSection() {
   const [previewCertification, setPreviewCertification] =
     useState<Certification | null>(null);
   const [activeTab, setActiveTab] = useState<CertificationType>("fundamental");
@@ -139,25 +133,25 @@ export default function Certifications() {
     return (
       <article
         key={`${certification.title}-${certification.date}`}
-        className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 hover:border-amber-400/30 transition-colors"
+        className="rounded-xl border border-beige-200 bg-beige-50 p-6 shadow-sm transition-colors hover:border-clay-300"
       >
-        <h4 className="text-xl font-semibold text-white mb-2">
+        <h4 className="text-xl font-semibold text-stone-800 mb-2">
           {certification.title}
         </h4>
-        <p className="text-amber-200 mb-1">Issuer: {certification.issuer}</p>
-        <p className="text-amber-300 mb-1">Date: {certification.date}</p>
-        <p className="text-slate-300 mb-4">{certification.brief}</p>
+        <p className="text-beige-700 mb-1">Issuer: {certification.issuer}</p>
+        <p className="text-clay-600 mb-1">Date: {certification.date}</p>
+        <p className="text-stone-600 mb-4">{certification.brief}</p>
         <div className="flex flex-wrap gap-3">
           {filePath && (
             <>
               <div
-                className="px-4 py-2 rounded-md border border-amber-400/50 text-amber-300 text-sm select-none cursor-default hover:bg-amber-400/10 transition-colors"
+                className="px-4 py-2 rounded-md border border-clay-400/60 text-clay-700 text-sm select-none cursor-default hover:bg-clay-50 transition-colors"
                 onMouseEnter={() => setPreviewCertification(certification)}
               >
                 Hover to Preview
               </div>
               <button
-                className="px-4 py-2 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-medium transition-all duration-200 transform hover:scale-105"
+                className="px-4 py-2 rounded-md bg-clay-700 hover:bg-clay-800 text-azure font-medium transition-all duration-200 transform hover:scale-105"
                 onClick={() => openCertification(filePath)}
               >
                 Open Certificate
@@ -166,7 +160,7 @@ export default function Certifications() {
           )}
           {link && (
             <button
-              className="px-4 py-2 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-medium transition-all duration-200 transform hover:scale-105"
+              className="px-4 py-2 rounded-md bg-clay-700 hover:bg-clay-800 text-azure font-medium transition-all duration-200 transform hover:scale-105"
               onClick={() => openCertification(link)}
             >
               Proceed to Link Certification
@@ -178,30 +172,33 @@ export default function Certifications() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
-      <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950/70 p-10 shadow-[0_30px_80px_rgba(2,6,23,0.9)]">
+    <section
+      id="certifications"
+      className="mx-auto max-w-7xl scroll-mt-24 px-6 py-20 md:py-28"
+    >
+      <div className="relative overflow-hidden rounded-3xl border border-beige-200 bg-white/60 p-8 shadow-sm md:p-10">
         <div className="text-center mb-12">
-          <p className="text-xs tracking-[0.4em] uppercase text-amber-300 mb-3">
+          <p className="text-xs tracking-[0.4em] uppercase text-clay-600 mb-3">
             Professional Credentials
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-white via-slate-200 to-amber-200 bg-clip-text text-transparent mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-stone-800 mb-4">
             Certifications
           </h2>
-          <p className="text-slate-400 text-lg max-w-3xl mx-auto">
+          <p className="text-stone-600 text-lg max-w-3xl mx-auto">
             Showcasing my commitment to continuous learning and professional
             development in web development and AI technologies.
           </p>
-          <div className="mx-auto mt-6 h-1 w-1/2 rounded-full bg-gradient-to-r from-amber-500/40 via-amber-400 to-slate-800"></div>
+          <div className="mx-auto mt-6 h-1 w-16 rounded-full bg-clay-500" />
         </div>
 
         {/* Toggle Buttons */}
-        <div className="flex justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button
             onClick={() => setActiveTab("fundamental")}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ease-out ${
               activeTab === "fundamental"
-                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg scale-100"
-                : "border border-slate-700 text-slate-300 hover:border-amber-400/50 hover:text-amber-200 bg-slate-900/40 scale-95"
+                ? "bg-clay-700 text-azure shadow-lg scale-100"
+                : "border border-beige-300 text-stone-600 hover:border-clay-400 hover:text-clay-700 bg-beige-50/60 scale-95"
             }`}
           >
             Fundamental Certifications
@@ -210,8 +207,8 @@ export default function Certifications() {
             onClick={() => setActiveTab("ai")}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ease-out ${
               activeTab === "ai"
-                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg scale-100"
-                : "border border-slate-700 text-slate-300 hover:border-amber-400/50 hover:text-amber-200 bg-slate-900/40 scale-95"
+                ? "bg-clay-700 text-azure shadow-lg scale-100"
+                : "border border-beige-300 text-stone-600 hover:border-clay-400 hover:text-clay-700 bg-beige-50/60 scale-95"
             }`}
           >
             AI Certifications
@@ -220,57 +217,41 @@ export default function Certifications() {
 
         {/* Fundamental Certifications Tab */}
         {activeTab === "fundamental" && (
-          <div className="mb-16 animate-fadeIn transition-opacity duration-500">
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={revealViewport}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
+          <div className="animate-fadeIn transition-opacity duration-500">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {fundamentalCertifications.map((certification) => (
-                <motion.div
+                <CertificationCard
                   key={`${certification.title}-${certification.date}`}
-                  variants={staggerItem}
-                >
-                  <CertificationCard certification={certification} />
-                </motion.div>
+                  certification={certification}
+                />
               ))}
-            </motion.div>
+            </div>
           </div>
         )}
 
         {/* AI Certifications Tab */}
         {activeTab === "ai" && (
-          <div className="mb-16 animate-fadeIn transition-opacity duration-500">
+          <div className="animate-fadeIn transition-opacity duration-500">
             {aiCertifications.length === 0 ? (
-              <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-12 text-center">
-                <p className="text-amber-300 text-lg">Coming soon...</p>
+              <div className="rounded-xl border border-beige-200 bg-beige-50 p-12 text-center">
+                <p className="text-clay-700 text-lg">Coming soon...</p>
               </div>
             ) : (
-              <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="show"
-                viewport={revealViewport}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {aiCertifications.map((certification) => (
-                  <motion.div
+                  <CertificationCard
                     key={`${certification.title}-${certification.date}`}
-                    variants={staggerItem}
-                  >
-                    <CertificationCard certification={certification} />
-                  </motion.div>
+                    certification={certification}
+                  />
                 ))}
-              </motion.div>
+              </div>
             )}
           </div>
         )}
 
         {previewCertification?.filePath && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 transition-opacity duration-300"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/50 backdrop-blur-sm p-4 transition-opacity duration-300"
             onMouseDown={(event) => {
               if (event.target === event.currentTarget) {
                 setPreviewCertification(null);
@@ -279,9 +260,9 @@ export default function Certifications() {
           >
             <div
               onMouseLeave={() => setPreviewCertification(null)}
-              className="w-full max-w-4xl h-[80vh] rounded-xl border border-amber-400/30 bg-slate-950/95 overflow-hidden shadow-2xl transition-all duration-300 ease-out scale-100 opacity-100"
+              className="w-full max-w-4xl h-[80vh] rounded-xl border border-beige-400 bg-beige-50 overflow-hidden shadow-2xl transition-all duration-300 ease-out scale-100 opacity-100"
             >
-              <div className="px-4 py-3 border-b border-amber-400/30 text-sm text-amber-200 bg-slate-900/50">
+              <div className="px-4 py-3 border-b border-beige-300 text-sm text-beige-700 bg-white/60">
                 Preview: {previewCertification.title}
               </div>
               <iframe
