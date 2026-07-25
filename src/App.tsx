@@ -48,7 +48,7 @@ function App() {
             variants={pageEntrance}
             initial="hidden"
             animate="show"
-            className="relative z-0 flex min-h-screen flex-col text-stone-800"
+            className="relative z-0 flex min-h-screen flex-col overflow-x-clip text-stone-800"
           >
             <Navbar />
             <main className="flex-1">

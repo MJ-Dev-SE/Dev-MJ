@@ -44,8 +44,9 @@ const projects: Project[] = [
       "Supabase edge functions",
     ],
     cover: "from-clay-600 to-clay-800",
-    link: "https://pnp-github-io-zrx7.vercel.app/",
-    ctaLabel: "Visit inventory",
+    // Link hidden while the project is still being built.
+    // link: "https://pnp-github-io-zrx7.vercel.app/",
+    // ctaLabel: "Visit inventory",
   },
   {
     title: "EASYJOBAISTATUS",
@@ -60,8 +61,9 @@ const projects: Project[] = [
       "Automated follow-up and company research",
     ],
     cover: "from-beige-800 to-beige-900",
-    link: "https://easyjobastatus.vercel.app/login",
-    ctaLabel: "View EASYJOBAISTATUS",
+    // Link hidden while the project is still being built.
+    // link: "https://easyjobastatus.vercel.app/login",
+    // ctaLabel: "View EASYJOBAISTATUS",
   },
   {
     title: "Augmented Reality Walkthrough",
@@ -87,23 +89,23 @@ const projects: Project[] = [
       },
     ],
   },
-  {
-    title: "UI THINK",
-    description:
-      "A 2026 release UI guide that explains major UI terminology, sample patterns, when to apply or avoid them, and how standards-based documentation pairs with Gemini AI review.",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Gemini AI"],
-    projectStatus: "Released",
-    timeline: "2026",
-    highlights: [
-      "Terminology reference for UI design systems",
-      "Good vs bad UI usage with real examples",
-      "Documentation-first standards approach",
-      "AI-assisted guidance through Gemini",
-    ],
-    cover: "from-clay-700 to-beige-900",
-    link: "https://ui-think.vercel.app/",
-    ctaLabel: "View UI THINK",
-  },
+  // {
+  //   title: "UI THINK",
+  //   description:
+  //     "A 2026 release UI guide that explains major UI terminology, sample patterns, when to apply or avoid them, and how standards-based documentation pairs with Gemini AI review.",
+  //   tech: ["React", "TypeScript", "Tailwind CSS", "Gemini AI"],
+  //   projectStatus: "Released",
+  //   timeline: "2026",
+  //   highlights: [
+  //     "Terminology reference for UI design systems",
+  //     "Good vs bad UI usage with real examples",
+  //     "Documentation-first standards approach",
+  //     "AI-assisted guidance through Gemini",
+  //   ],
+  //   cover: "from-clay-700 to-beige-900",
+  //   link: "https://ui-think.vercel.app/",
+  //   ctaLabel: "View UI THINK",
+  // },
   {
     title: "Basketball Playbook System",
     description:
@@ -206,6 +208,11 @@ function CardFace({ project }: { project: Project }) {
               ))}
             </div>
           )}
+          {!project.link && !project.links && (
+            <span className="inline-flex items-center rounded-full border border-beige-300 bg-beige-100 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-stone-400">
+              In development
+            </span>
+          )}
         </div>
       </div>
     </article>
@@ -244,7 +251,7 @@ export default function ProjectsSection() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { amount: 0.3 });
-  const [hovered, setHovered] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [started, setStarted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const rotateY = useMotionValue(0);
@@ -256,7 +263,8 @@ export default function ProjectsSection() {
     return () => clearTimeout(timer);
   }, [inView, started]);
 
-  // Continuous auto-rotate: runs while in view and not paused by hover.
+  // Continuous auto-rotate: runs while in view and not paused. Pausing comes
+  // from hover (desktop) or press-and-hold (mobile touch); releasing resumes.
   // It is independent of scroll, so scrolling the page never stops it.
   useEffect(() => {
     if (reduceMotion) return;
@@ -265,14 +273,14 @@ export default function ProjectsSection() {
     const tick = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
-      if (started && inView && !hovered) {
+      if (started && inView && !paused) {
         rotateY.set(rotateY.get() - SPIN_SPEED * dt);
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reduceMotion, started, inView, hovered, rotateY]);
+  }, [reduceMotion, started, inView, paused, rotateY]);
 
   useMotionValueEvent(rotateY, "change", (value) => {
     const idx = ((Math.round(-value / STEP) % COUNT) + COUNT) % COUNT;
@@ -303,8 +311,11 @@ export default function ProjectsSection() {
       <div
         className="mt-10 flex justify-center"
         style={{ perspective: PERSPECTIVE }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onTouchStart={() => setPaused(true)}
+        onTouchEnd={() => setPaused(false)}
+        onTouchCancel={() => setPaused(false)}
       >
         <div className="relative flex h-[480px] w-full items-center justify-center">
           <motion.div
@@ -338,7 +349,7 @@ export default function ProjectsSection() {
       </div>
 
       <p className="mt-4 text-center text-xs uppercase tracking-[0.3em] text-stone-500">
-        Auto-rotating · hover to pause
+         hover or hold to pause
       </p>
     </section>
   );
