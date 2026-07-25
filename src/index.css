@@ -361,6 +361,21 @@ html {
 .pf-connector[data-state="done"] .pf-connector-line { transform: scaleY(1); }
 .pf-connector[data-state="done"] .pf-connector-line { opacity: 0.6; }
 
+/* "Hover or click to flip" affordance on the card front. */
+.pf-flip-hint { animation: pf-hint-bob 2.6s ease-in-out infinite; }
+@keyframes pf-hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+.pf-flip-hint-icon { animation: pf-hint-spin 3.2s ease-in-out infinite; transform-origin: center; }
+@keyframes pf-hint-spin {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  85%           { transform: rotate(180deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-flip-hint, .pf-flip-hint-icon { animation: none; }
+}
+
 /* Glowing orb that travels a connector while it is "flowing". */
 .pf-orb {
   position: absolute;

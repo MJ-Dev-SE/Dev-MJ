@@ -111,6 +111,33 @@ export default function ProfileCard() {
         {/* Front — cinematic glitch portrait, full-bleed */}
         <div className="flip-card-front overflow-hidden rounded-3xl border border-beige-900/40 shadow-[0_20px_45px_rgba(5,7,14,0.4)]">
           <GlitchPortrait src="/portrait.jpg" />
+
+          {/* Affordance: let visitors know the portrait flips */}
+          <motion.div
+            className="pf-flip-hint pointer-events-none absolute inset-x-0 bottom-3 flex justify-center"
+            initial={false}
+            animate={{ opacity: isFlipped ? 0 : 1, y: isFlipped ? 8 : 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            aria-hidden="true"
+          >
+            <span className="flex items-center gap-1.5 rounded-full border border-azure/25 bg-black/45 px-3 py-1.5 text-[11px] font-medium tracking-wide text-azure backdrop-blur-sm">
+              <svg
+                className="pf-flip-hint-icon h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                <path d="M3 21v-5h5" />
+              </svg>
+              Hover or click to flip
+            </span>
+          </motion.div>
         </div>
 
         {/* Back — an AI "workflow engine" running planning → deployment */}
