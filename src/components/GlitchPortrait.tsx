@@ -23,9 +23,12 @@ export default function GlitchPortrait({ src }: { src: string }) {
 
   const style = { "--gp-src": `url(${src})` } as CSSProperties;
 
+  // Ticking readouts for the (currently commented-out) HUD overlay below.
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const readoutA = (0xa1 + (frame % 94)).toString(16).toUpperCase().padStart(2, "0");
   const readoutB = String(1200 + ((frame * 7) % 8800)).padStart(4, "0");
   const readoutC = ((frame * 3) % 360).toString().padStart(3, "0");
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
   return (
     <div
