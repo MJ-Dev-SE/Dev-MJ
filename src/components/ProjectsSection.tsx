@@ -31,22 +31,38 @@ type Project = {
 };
 
 const projects: Project[] = [
+  // {
+  //   title: "Inventory Management System",
+  //   description:
+  //     "Streamlines officer data intake by letting users upload datasets per PPO and station while preserving audit trails.",
+  //   tech: ["React", "Supabase", "TypeScript"],
+  //   projectStatus: "Done | Internship",
+  //   timeline: "MARCH 2026",
+  //   highlights: [
+  //     "Automated PPO visibility",
+  //     "Role-aware dashboards",
+  //     "Supabase edge functions",
+  //   ],
+  //   cover: "from-clay-600 to-clay-800",
+  //   // Link hidden while the project is still being built.
+  //   // link: "https://pnp-github-io-zrx7.vercel.app/",
+  //   // ctaLabel: "Visit inventory",
+  // },
   {
-    title: "Inventory Management System",
+    title: "Hanin.tv",
     description:
-      "Streamlines officer data intake by letting users upload datasets per PPO and station while preserving audit trails.",
-    tech: ["React", "Supabase", "TypeScript"],
-    projectStatus: "Done | Internship",
-    timeline: "MARCH 2026",
+      "A live web platform for the Korean community in the Philippines — a space for Korean nationals to explore information about Koreans residing locally, organized across different categories.",
+    tech: ["React", "TypeScript", "Database"],
+    projectStatus: "Live",
+    timeline: "2026",
     highlights: [
-      "Automated PPO visibility",
-      "Role-aware dashboards",
-      "Supabase edge functions",
+      "Category-based directory for Koreans in the Philippines",
+      "React + TypeScript front end, database-driven backend",
+      "Community-focused content for Korean nationals",
     ],
-    cover: "from-clay-600 to-clay-800",
-    // Link hidden while the project is still being built.
-    // link: "https://pnp-github-io-zrx7.vercel.app/",
-    // ctaLabel: "Visit inventory",
+    cover: "from-clay-700 to-beige-900",
+    link: "https://www.hanin.tv/",
+    ctaLabel: "Visit Hanin.tv",
   },
   {
     title: "EASYJOBAISTATUS",
@@ -320,7 +336,11 @@ export default function ProjectsSection() {
         <div className="relative flex h-[480px] w-full items-center justify-center">
           <motion.div
             className="relative h-[440px] w-[300px] sm:w-[340px]"
-            style={{ rotateY, transformStyle: "preserve-3d" }}
+            // Push the whole cylinder back by RADIUS so the FRONT card ends up
+            // at z:0 (right on the perspective plane). That removes the ~1.25x
+            // perspective magnification on the front card, so its buttons paint
+            // exactly where they're clickable — no offset/"angled" hit area.
+            style={{ rotateY, z: -RADIUS, transformStyle: "preserve-3d" }}
           >
             {projects.map((project, index) => (
               <div
@@ -328,6 +348,9 @@ export default function ProjectsSection() {
                 className="absolute inset-0 flex items-center justify-center [backface-visibility:hidden]"
                 style={{
                   transform: `rotateY(${index * STEP}deg) translateZ(${RADIUS}px)`,
+                  // Only the front-facing card is interactive; the tilted side
+                  // cards would otherwise overlap and hijack button clicks.
+                  pointerEvents: index === activeIndex ? "auto" : "none",
                 }}
               >
                 <CardFace project={project} />

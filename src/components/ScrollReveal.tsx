@@ -19,7 +19,11 @@ export default function ScrollReveal({ children }: { children: ReactNode }) {
       initial="hidden"
       whileInView="show"
       viewport={spiralViewport}
-      style={{ transformOrigin: "center", willChange: "transform" }}
+      // No permanent `will-change: transform`: leaving a section on its own
+      // composited layer offsets hit-testing for interactive 3D descendants
+      // (e.g. the Projects carousel buttons). framer-motion handles the
+      // transform without it.
+      style={{ transformOrigin: "center" }}
     >
       {children}
     </motion.div>

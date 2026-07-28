@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 type ExperienceEntry = {
   title: string;
@@ -9,6 +11,18 @@ type ExperienceEntry = {
 };
 
 const experience: ExperienceEntry[] = [
+  {
+    title: "React & TypeScript Developer",
+    subtitle: "Hanin.tv (Korean Community Platform)",
+    timeline: "2026",
+    description:
+      "Developed hanin.tv, a live web platform for the Korean community in the Philippines. It helps Korean nationals discover information about Koreans residing locally, organized across different categories. Built a React + TypeScript front end backed by a database.",
+    highlights: [
+      "Shipped a React + TypeScript front end for a live production site",
+      "Backed content with a database-driven backend across categories",
+      "Organized community information for Koreans residing in the Philippines",
+    ],
+  },
   {
     title: "React | Personal Project",
     subtitle: "EASYJOBAISTATUS",
@@ -21,18 +35,18 @@ const experience: ExperienceEntry[] = [
       "Delivered visibility that accelerates decision-making and handoff",
     ],
   },
-  {
-    title: "UI / UX Developer | Intern",
-    subtitle: "PNP Inventory System",
-    timeline: "Dec 2025 – March 2026",
-    description:
-      "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
-    highlights: [
-      "Aligned system workflows with PNP operations and reporting",
-      "Implemented secure role-based access and audit tracking",
-      "Optimized inventory sync for faster police logistics updates",
-    ],
-  },
+  // {
+  //   title: "UI / UX Developer | Intern",
+  //   subtitle: "PNP Inventory System",
+  //   timeline: "Dec 2025 – March 2026",
+  //   description:
+  //     "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
+  //   highlights: [
+  //     "Aligned system workflows with PNP operations and reporting",
+  //     "Implemented secure role-based access and audit tracking",
+  //     "Optimized inventory sync for faster police logistics updates",
+  //   ],
+  // },
   {
     title: "Mobile App Dev - Thesis",
     subtitle: "ShopFur (Augmented Reality)",
@@ -45,23 +59,39 @@ const experience: ExperienceEntry[] = [
       "Increased engagement through stable AR experience flows",
     ],
   },
-  {
-    title: "UI THINK",
-    subtitle: "UI Terminology & Standards Guide",
-    timeline: "2026 release",
-    description:
-      "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
-    highlights: [
-      "Maps major UI terminology and prerequisite design concepts",
-      "Shows sample patterns and when to use or avoid them",
-      "Connects standards-driven documentation with UI decisions",
-      "Adds Gemini AI guidance for smarter interface reviews",
-    ],
-  },
+  // {
+  //   title: "UI THINK",
+  //   subtitle: "UI Terminology & Standards Guide",
+  //   timeline: "2026 release",
+  //   description:
+  //     "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
+  //   highlights: [
+  //     "Maps major UI terminology and prerequisite design concepts",
+  //     "Shows sample patterns and when to use or avoid them",
+  //     "Connects standards-driven documentation with UI decisions",
+  //     "Adds Gemini AI guidance for smarter interface reviews",
+  //   ],
+  // },
 ];
 
 export default function ExperienceSection() {
+  const reduceMotion = useReducedMotion();
   const [selected, setSelected] = useState<ExperienceEntry | null>(null);
+
+  // Close on Escape and lock body scroll while the modal is open.
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelected(null);
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [selected]);
 
   return (
     <section
@@ -112,15 +142,39 @@ export default function ExperienceSection() {
         ))}
       </div>
 
-      {selected && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/40 p-4 backdrop-blur-sm"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-beige-300 bg-beige-50 p-8"
-            onClick={(event) => event.stopPropagation()}
-          >
+      {createPortal(
+        <AnimatePresence>
+          {selected && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              onClick={(event) => {
+                // Close only when the click lands on the overlay itself,
+                // never when it bubbles up from inside the panel.
+                if (event.target === event.currentTarget) setSelected(null);
+              }}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${selected.title} — ${selected.subtitle}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <motion.div
+                className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-beige-300 bg-beige-50 p-8 shadow-2xl"
+              initial={
+                reduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: 24, scale: 0.96 }
+              }
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={
+                reduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: 16, scale: 0.97 }
+              }
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            >
             <div className="mb-6 flex items-start justify-between">
               <div>
                 <h3 className="text-2xl font-bold text-stone-800">
@@ -156,8 +210,11 @@ export default function ExperienceSection() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
       )}
     </section>
   );
