@@ -21,6 +21,121 @@ html {
   scroll-behavior: smooth;
 }
 
+/* --- ProfileCard back: the process flowchart ------------------------------
+   The whole chart is drawn faintly from the start; `data-on` lights each node
+   and draws each connector as the sequence advances. Transitions are long and
+   overlapping (they outlast the ~320ms step interval) so the trace reads as
+   one continuous flow rather than a series of jumps. Colors are literal here
+   because SVG fill/stroke can't take Tailwind text utilities:
+     beige-50 #FDFBF7 · beige-200 #EDE4D3 · beige-300 #E3D5BC · beige-500 #C4A878
+     clay-50 #FBF3EC · clay-300 #DBA57E · clay-400 #CC8659 · clay-700 #88482A
+     stone-400 #A8A29E · stone-500 #78716C · stone-800 #292524 · azure #A9DCF5 */
+.fc-node {
+  opacity: 0.28;
+  transition: opacity 620ms ease-out;
+}
+
+.fc-node[data-on="true"] {
+  opacity: 1;
+}
+
+.fc-shape {
+  fill: #fdfbf7;
+  stroke: #e3d5bc;
+  stroke-width: 1.2;
+  transition:
+    fill 620ms ease-out,
+    stroke 620ms ease-out;
+}
+
+.fc-node[data-on="true"] .fc-shape {
+  fill: #fbf3ec;
+  stroke: #cc8659;
+}
+
+.fc-node[data-on="true"] .fc-shape--decision {
+  fill: #fdfbf7;
+}
+
+.fc-shape--terminator {
+  stroke-width: 0;
+}
+
+.fc-node[data-on="true"] .fc-shape--terminator {
+  fill: #88482a;
+}
+
+.fc-label {
+  fill: #a8a29e;
+  transition: fill 620ms ease-out;
+}
+
+.fc-node[data-on="true"] .fc-label {
+  fill: #292524;
+}
+
+/* Label sitting on a filled clay terminator — azure, never white. */
+.fc-node[data-on="true"] .fc-label--on-fill {
+  fill: #a9dcf5;
+}
+
+.fc-detail {
+  fill: #c4a878;
+  transition: fill 620ms ease-out;
+}
+
+.fc-node[data-on="true"] .fc-detail {
+  fill: #78716c;
+}
+
+/* Faint always-present outline of every connector. */
+.fc-track {
+  stroke: #ede4d3;
+  stroke-width: 1.2;
+}
+
+.fc-line {
+  stroke: #cc8659;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: var(--fc-len);
+  stroke-dashoffset: var(--fc-len);
+  transition: stroke-dashoffset 700ms ease-in-out;
+}
+
+.fc-line--branch {
+  stroke: #dba57e;
+  stroke-width: 1.2;
+}
+
+.fc-link[data-on="true"] .fc-line {
+  stroke-dashoffset: 0;
+}
+
+/* Arrowhead and branch label arrive just after their line finishes drawing. */
+.fc-head {
+  fill: #cc8659;
+}
+
+.fc-head--branch {
+  fill: #dba57e;
+}
+
+.fc-branch-label {
+  fill: #a8a29e;
+}
+
+.fc-head,
+.fc-branch-label {
+  opacity: 0;
+  transition: opacity 320ms ease-out 380ms;
+}
+
+.fc-link[data-on="true"] .fc-head,
+.fc-link[data-on="true"] .fc-branch-label {
+  opacity: 1;
+}
+
 /* Gentle bob on the "hover or click to flip" hint. CSS rather than a JS
    animation loop — it costs nothing and keeps running when the tab is idle. */
 @keyframes hint-bob {
@@ -79,5 +194,15 @@ html {
 
   .hint-bob {
     animation: none;
+  }
+
+  .fc-node,
+  .fc-shape,
+  .fc-label,
+  .fc-detail,
+  .fc-line,
+  .fc-head,
+  .fc-branch-label {
+    transition: none;
   }
 }

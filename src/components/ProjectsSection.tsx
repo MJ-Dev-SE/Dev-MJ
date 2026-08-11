@@ -18,6 +18,8 @@ type Project = {
   link?: string;
   ctaLabel?: string;
   links?: { label: string; url: string }[];
+  // Shown in place of a CTA when there is deliberately nothing to link to.
+  note?: string;
 };
 
 const projects: Project[] = [
@@ -61,16 +63,9 @@ const projects: Project[] = [
       "Offline-first asset sync",
       "Guided video walkthrough for first-time users",
     ],
-    links: [
-      {
-        label: "App 1",
-        url: "https://drive.google.com/file/d/1FoN_FoodLzIv6a19hDYl_QG_9AsGIYMX/view?usp=drive_link",
-      },
-      {
-        label: "App 2",
-        url: "https://drive.google.com/file/d/1_uE9bPImyokTVMsd6j-ycoUD0GupBVJ_/view?usp=sharing",
-      },
-    ],
+    // The two install builds have been taken down, so there is nothing left to
+    // link to — the entry stays as a record of the work.
+    note: "The install builds are no longer available.",
   },
   {
     title: "Basketball Playbook System",
@@ -174,7 +169,7 @@ function ProjectCard({ project }: { project: Project }) {
 
         {!project.link && !project.links && (
           <span className="text-xs text-stone-400">
-            Link goes up once it's ready
+            {project.note ?? "Link goes up once it's ready"}
           </span>
         )}
       </div>

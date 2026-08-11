@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 
 type NavChild = { label: string; id: string };
 type NavItem = { label: string; id: string; children?: NavChild[] };
@@ -55,6 +55,17 @@ export default function Navbar() {
 
   const closeMobile = () => setMobileOpen(false);
 
+  const reduceMotion = useReducedMotion();
+
+  // The brand is a `<Link to="/">`, and on a one-route site clicking it is a
+  // no-op navigation — so it has to do the scrolling itself. Goes to the very
+  // top rather than to `#home`, whose `scroll-mt-24` would leave it parked
+  // under the header instead of showing the page from the start.
+  const scrollToTop = () => {
+    closeMobile();
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  };
+
   // Reading-progress line across the bottom edge of the header.
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
@@ -79,7 +90,12 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-40 border-b border-beige-200 bg-beige-50/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link to="/" className="group flex items-center gap-2.5">
+        <Link
+          to="/"
+          onClick={scrollToTop}
+          aria-label="Mark Jerohm Castro — back to top"
+          className="group flex items-center gap-2.5 rounded-xl outline-none ring-clay-400 ring-offset-2 ring-offset-beige-50 focus-visible:ring-2"
+        >
           <motion.span
             className="grid h-9 w-9 place-items-center rounded-xl bg-clay-700 text-sm font-semibold text-azure"
             whileHover={{ rotate: -6, scale: 1.05 }}
