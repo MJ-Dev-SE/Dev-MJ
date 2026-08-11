@@ -1,58 +1,92 @@
 import type { Variants } from "framer-motion";
 
+// Easing used everywhere: a soft decelerate, nothing springy.
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 // Shared scroll-reveal variants. Use `staggerContainer` on a grid/list wrapper
 // and `staggerItem` on each child to get a cascading fade-up as it enters view.
 export const staggerContainer: Variants = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.07, delayChildren: 0.04 },
   },
 };
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
+    transition: { duration: 0.45, ease: EASE },
   },
 };
 
 // Whole-page transition used when switching routes.
 export const pageTransition: Variants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
-  exit: { opacity: 0, y: -12, transition: { duration: 0.25, ease: "easeIn" } },
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.3, ease: "easeOut" } },
+  exit: { opacity: 0, transition: { duration: 0.2, ease: "easeIn" } },
 };
 
-// One-shot "expand from center" entrance played once after the loading
-// screen finishes. Mount-triggered (no exit side), so no AnimatePresence
-// is needed for this one.
+// One-shot entrance played once after the loading screen finishes. A plain
+// fade-up — no scale/zoom, which read as a "camera move" and fought the
+// minimalist direction.
 export const pageEntrance: Variants = {
-  hidden: { opacity: 0, scale: 0.92 },
+  hidden: { opacity: 0, y: 8 },
   show: {
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+    y: 0,
+    transition: { duration: 0.5, ease: EASE },
+  },
+};
+
+// Section scroll reveal: a short fade-up, and only the first time a section
+// comes into view. (This replaced a "reverse spiral" rotate+scale reveal that
+// replayed on every scroll — too busy, and the rotation pushed content past
+// the viewport edge.)
+export const sectionReveal: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE },
   },
 };
 
 // Viewport config so reveals only fire once, slightly before fully in view.
 export const revealViewport = { once: true, amount: 0.15 } as const;
 
-// "Reverse spiral" scroll reveal: each section unwinds into place (rotates
-// counter-clockwise from a shrunken, tilted state up to rest) as it enters the
-// viewport. Used by <ScrollReveal> on every Home section; replays each scroll.
-export const spiralReveal: Variants = {
-  hidden: { opacity: 0, scale: 0.75, rotate: -45 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
-  },
+// --- Interaction motion ----------------------------------------------------
+// Short, consistent timings so hover/press feel the same everywhere. Anything
+// the user triggers should answer immediately — under ~250ms — while scroll
+// reveals can take longer.
+
+/** Hover/press feedback for cards: a small lift, no scale. */
+export const cardHover = {
+  whileHover: { y: -3, transition: { duration: 0.2, ease: "easeOut" } },
+} as const;
+
+/** Hover/press feedback for buttons and links: lift on hover, sink on press. */
+export const buttonPress = {
+  whileHover: { y: -1 },
+  whileTap: { y: 0, scale: 0.98 },
+  transition: { duration: 0.15, ease: "easeOut" },
+} as const;
+
+/** Content swapping in place (tab panels, filtered lists). */
+export const swapPanel: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE } },
+  exit: { opacity: 0, y: -6, transition: { duration: 0.18, ease: "easeIn" } },
 };
 
-// Viewport config for the spiral reveal — re-fires every time a section
-// re-enters view (both scroll directions), not just once.
-export const spiralViewport = { once: false, amount: 0.2 } as const;
+/** Hero: the intro lines arrive one after another rather than all at once. */
+export const introContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+};
+
+export const introItem: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};

@@ -1,32 +1,18 @@
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface LoadingScreenProps {
   onFinish: () => void;
 }
 
-const letterVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15 * i, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-  }),
-};
+const HOLD_MS = 1600;
+const REDUCED_HOLD_MS = 300;
 
-const dotVariants: Variants = {
-  hidden: { opacity: 0.2 },
-  show: (i: number) => ({
-    opacity: [0.2, 1, 0.2],
-    transition: {
-      delay: 0.9 + i * 0.15,
-      duration: 0.9,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  }),
-};
-
+/**
+ * Brand splash: the same "MJ" monogram used by the navbar and the favicon,
+ * the full name underneath, and a thin bar that fills once. No bouncing
+ * letters or blinking dots — it should read as a wordmark, not a spinner.
+ */
 export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
   const [reduceMotion] = useState(
     () =>
@@ -35,45 +21,50 @@ export default function LoadingScreen({ onFinish }: LoadingScreenProps) {
   );
 
   useEffect(() => {
-    const timer = setTimeout(onFinish, reduceMotion ? 400 : 1900);
+    const timer = setTimeout(onFinish, reduceMotion ? REDUCED_HOLD_MS : HOLD_MS);
     return () => clearTimeout(timer);
   }, [onFinish, reduceMotion]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-beige-50"
+      className="fixed inset-0 z-[100] grid place-items-center bg-beige-50"
       initial={{ opacity: 1 }}
-      exit={{
-        opacity: 0,
-        scale: 1.04,
-        transition: { duration: 0.5, ease: "easeInOut" },
-      }}
+      exit={{ opacity: 0, transition: { duration: 0.45, ease: "easeInOut" } }}
     >
-      <div className="flex items-end gap-1 text-6xl font-extrabold tracking-tight text-beige-800 sm:text-7xl">
-        {["M", "J"].map((letter, i) => (
-          <motion.span
-            key={letter}
-            custom={i}
-            variants={reduceMotion ? undefined : letterVariants}
-            initial={reduceMotion ? undefined : "hidden"}
-            animate={reduceMotion ? undefined : "show"}
-          >
-            {letter}
-          </motion.span>
-        ))}
-        <span className="ml-1 flex items-end gap-1 pb-2">
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              variants={reduceMotion ? undefined : dotVariants}
-              initial={reduceMotion ? undefined : "hidden"}
-              animate={reduceMotion ? undefined : "show"}
-              className="block h-2 w-2 rounded-full bg-beige-600"
-            />
-          ))}
+      <motion.div
+        className="flex flex-col items-center"
+        initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <span className="grid h-16 w-16 place-items-center rounded-2xl bg-clay-700 text-xl font-semibold tracking-tight text-azure">
+          MJ
         </span>
-      </div>
+
+        <p className="mt-5 text-sm font-medium tracking-tight text-stone-800">
+          Mark Jerohm Castro
+        </p>
+        <p className="mt-1 text-[10px] uppercase tracking-[0.35em] text-clay-600">
+          Portfolio
+        </p>
+
+        <div
+          className="mt-6 h-px w-32 overflow-hidden bg-beige-200"
+          role="progressbar"
+          aria-label="Loading portfolio"
+        >
+          <motion.div
+            className="h-full bg-clay-600"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{
+              duration: reduceMotion ? 0 : HOLD_MS / 1000,
+              ease: "easeInOut",
+            }}
+            style={{ transformOrigin: "left" }}
+          />
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

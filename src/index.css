@@ -1,10 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
 
+body {
   margin: 0;
-  background-color: #F3EBDD;
+  background-color: #fdfbf7;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -17,27 +17,29 @@ code {
     monospace;
 }
 
-@keyframes tech-stack-slide {
-  from {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.tech-stack-slide {
-  animation: tech-stack-slide 320ms ease-out;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
-/* 3D flip card (profile section) */
+/* Gentle bob on the "hover or click to flip" hint. CSS rather than a JS
+   animation loop — it costs nothing and keeps running when the tab is idle. */
+@keyframes hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.hint-bob {
+  animation: hint-bob 2.8s ease-in-out infinite;
+}
+
+/* --- 3D flip card (ProfileCard) -------------------------------------------
+   Tailwind v3 has no core utilities for perspective / preserve-3d /
+   backface-visibility, so these stay hand-written. */
 .flip-card {
   perspective: 1200px;
 }
@@ -46,7 +48,7 @@ html {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
   transform-style: preserve-3d;
 }
 
@@ -74,412 +76,8 @@ html {
   .flip-card-inner {
     transition-duration: 0.01ms;
   }
-}
 
-/* --- Glitch portrait (ProfileCard front): cinematic sci-fi glitch --------- */
-.glitch-portrait {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #05070e;
-  isolation: isolate;
-}
-
-/* Bright backlit blowout behind the subject (approximate silhouette). */
-.gp-backlight {
-  position: absolute;
-  inset: -25%;
-  z-index: 0;
-  background:
-    radial-gradient(55% 40% at 50% 26%, rgba(205, 242, 255, 0.95), rgba(120, 200, 255, 0.30) 46%, transparent 72%),
-    radial-gradient(72% 55% at 50% 34%, rgba(255, 150, 55, 0.28), transparent 66%);
-  filter: blur(8px);
-  animation: gp-backlight 5s ease-in-out infinite;
-}
-
-/* The portrait + its two chromatic-aberration clones (via ::before/::after).
-   `--gp-src` is set inline on the element to the image url(). */
-.gp-image,
-.gp-image::before,
-.gp-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--gp-src);
-  background-size: cover;
-  background-position: center 18%;
-}
-
-.gp-image {
-  z-index: 1;
-  /* dark, high-contrast grade so the subject reads moody/silhouette-like */
-  filter: contrast(1.4) brightness(0.68) saturate(1.1) hue-rotate(-6deg);
-}
-
-/* Cyan channel — shifts left, slices during the pulse. */
-.gp-image::before {
-  z-index: 2;
-  mix-blend-mode: screen;
-  filter: sepia(1) hue-rotate(135deg) saturate(4) brightness(1.05);
-  animation: gp-slice-cyan 4s steps(1, end) infinite;
-}
-
-/* Orange channel — shifts right. */
-.gp-image::after {
-  z-index: 2;
-  mix-blend-mode: screen;
-  filter: sepia(1) hue-rotate(-28deg) saturate(4.5) brightness(1.02);
-  animation: gp-slice-orange 4s steps(1, end) infinite;
-}
-
-/* Bursts of horizontal slice displacement near the loop start + a micro
-   glitch mid-loop, then it settles (baseline = faint constant fringe). */
-@keyframes gp-slice-cyan {
-  0%, 100% { transform: translateX(-2px); clip-path: inset(0 0 0 0); opacity: 0.38; }
-  2%  { transform: translateX(-9px);  clip-path: inset(10% 0 80% 0); opacity: 0.85; }
-  4%  { transform: translateX(7px);   clip-path: inset(42% 0 44% 0); opacity: 0.70; }
-  6%  { transform: translateX(-12px); clip-path: inset(66% 0 20% 0); opacity: 0.80; }
-  8%  { transform: translateX(3px);   clip-path: inset(26% 0 62% 0); opacity: 0.55; }
-  10% { transform: translateX(-2px);  clip-path: inset(0 0 0 0); opacity: 0.38; }
-  52% { transform: translateX(-2px);  clip-path: inset(0 0 0 0); opacity: 0.38; }
-  53% { transform: translateX(-8px);  clip-path: inset(18% 0 72% 0); opacity: 0.70; }
-  55% { transform: translateX(-2px);  clip-path: inset(0 0 0 0); opacity: 0.38; }
-}
-
-@keyframes gp-slice-orange {
-  0%, 100% { transform: translateX(2px); clip-path: inset(0 0 0 0); opacity: 0.34; }
-  2%  { transform: translateX(9px);   clip-path: inset(10% 0 80% 0); opacity: 0.80; }
-  4%  { transform: translateX(-7px);  clip-path: inset(42% 0 44% 0); opacity: 0.66; }
-  6%  { transform: translateX(12px);  clip-path: inset(66% 0 20% 0); opacity: 0.78; }
-  8%  { transform: translateX(-3px);  clip-path: inset(26% 0 62% 0); opacity: 0.50; }
-  10% { transform: translateX(2px);   clip-path: inset(0 0 0 0); opacity: 0.34; }
-  52% { transform: translateX(2px);   clip-path: inset(0 0 0 0); opacity: 0.34; }
-  53% { transform: translateX(8px);   clip-path: inset(30% 0 58% 0); opacity: 0.66; }
-  55% { transform: translateX(2px);   clip-path: inset(0 0 0 0); opacity: 0.34; }
-}
-
-/* Scan lines */
-.gp-scanlines {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.18) 3px,
-    rgba(0, 0, 0, 0.18) 4px
-  );
-  mix-blend-mode: multiply;
-  animation: gp-scan 8s linear infinite;
-}
-
-/* Digital static / noise */
-.gp-static {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0.1;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: gp-flicker 0.5s steps(3) infinite;
-}
-
-/* Vignette to sink the edges */
-.gp-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  background: radial-gradient(75% 75% at 50% 45%, transparent 55%, rgba(3, 5, 12, 0.75) 100%);
-}
-
-/* HUD overlay */
-.gp-hud {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.gp-diamond {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: gp-float 4s ease-in-out infinite;
-}
-
-.gp-diamond-2 {
-  animation-delay: -2s;
-}
-
-.gp-readouts {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-  color: #9fe6ff;
-}
-
-.gp-readouts span {
-  position: absolute;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-shadow: 0 0 6px rgba(80, 200, 255, 0.6);
-  opacity: 0.85;
-}
-
-@keyframes gp-backlight {
-  0%, 100% { opacity: 0.9; filter: blur(8px); }
-  8%       { opacity: 0.68; }
-  50%      { opacity: 1; filter: blur(6px); }
-}
-
-@keyframes gp-scan {
-  from { background-position-y: 0; }
-  to   { background-position-y: 64px; }
-}
-
-@keyframes gp-flicker {
-  0%   { opacity: 0.06; }
-  50%  { opacity: 0.14; }
-  100% { opacity: 0.09; }
-}
-
-@keyframes gp-float {
-  0%, 100% { transform: translateY(0) rotate(45deg); }
-  50%      { transform: translateY(-4px) rotate(45deg); }
-}
-
-/* Reduced motion: hold everything still, keep a faint static aberration. */
-@media (prefers-reduced-motion: reduce) {
-  .gp-backlight,
-  .gp-image::before,
-  .gp-image::after,
-  .gp-scanlines,
-  .gp-static,
-  .gp-diamond {
+  .hint-bob {
     animation: none;
   }
-
-  .gp-image::before { opacity: 0.25; }
-  .gp-image::after { opacity: 0.22; }
-}
-
-/* --- ProfileCard back: AI process "workflow engine" (fully contained) ------
-   All layers are clipped by the card's rounded overflow-hidden. Blue AI accent
-   is rgba(127,220,255,*) over the dark mocha (beige-800/900) surface. */
-.pf-back { position: relative; isolation: isolate; }
-
-/* Soft drifting ambient glow (blue + warm clay) behind everything. */
-.pf-ambient {
-  position: absolute;
-  inset: -30%;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(38% 38% at 22% 18%, rgba(127, 220, 255, 0.14), transparent 70%),
-    radial-gradient(42% 42% at 82% 80%, rgba(190, 113, 66, 0.16), transparent 72%);
-  filter: blur(22px);
-  animation: pf-ambient-drift 15s ease-in-out infinite alternate;
-}
-@keyframes pf-ambient-drift {
-  0%   { transform: translate3d(-4%, -3%, 0) scale(1); }
-  100% { transform: translate3d(4%, 3%, 0) scale(1.08); }
-}
-
-/* Diagonal glass reflection sweeping across the card. */
-.pf-glass {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background: linear-gradient(
-    115deg,
-    transparent 34%,
-    rgba(255, 255, 255, 0.05) 46%,
-    rgba(255, 255, 255, 0.11) 50%,
-    rgba(255, 255, 255, 0.05) 54%,
-    transparent 66%
-  );
-  background-size: 260% 260%;
-  animation: pf-glass-sweep 10s ease-in-out infinite;
-}
-@keyframes pf-glass-sweep {
-  0%, 100% { background-position: 130% 0%; }
-  50%      { background-position: -30% 100%; }
-}
-
-/* Tiny floating light particles (5–10% opacity). */
-.pf-particles { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
-.pf-particles i {
-  position: absolute;
-  bottom: -6px;
-  width: 3px;
-  height: 3px;
-  border-radius: 9999px;
-  background: rgba(127, 220, 255, 0.55);
-  box-shadow: 0 0 6px rgba(127, 220, 255, 0.6);
-  opacity: 0.09;
-  animation: pf-float linear infinite;
-}
-@keyframes pf-float {
-  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-  12%  { opacity: 0.1; }
-  88%  { opacity: 0.06; }
-  100% { transform: translate3d(8px, -560px, 0); opacity: 0; }
-}
-
-/* Vertical energy rail: connectors between the step rows. */
-.pf-connector {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: 8px;
-  width: 2px;
-  margin-left: 22px;   /* aligns under the 28px badge center (8px pad + 14px) */
-}
-.pf-connector-line {
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  transform: scaleY(0);
-  transform-origin: top center;
-  transition: transform 0.5s ease;
-  background: linear-gradient(
-    to bottom,
-    rgba(127, 220, 255, 0.55),
-    rgba(127, 220, 255, 0.12)
-  );
-}
-.pf-connector[data-state="flowing"] .pf-connector-line,
-.pf-connector[data-state="done"] .pf-connector-line { transform: scaleY(1); }
-.pf-connector[data-state="done"] .pf-connector-line { opacity: 0.6; }
-
-/* "Hover or click to flip" affordance on the card front. */
-.pf-flip-hint { animation: pf-hint-bob 2.6s ease-in-out infinite; }
-@keyframes pf-hint-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
-}
-.pf-flip-hint-icon { animation: pf-hint-spin 3.2s ease-in-out infinite; transform-origin: center; }
-@keyframes pf-hint-spin {
-  0%, 70%, 100% { transform: rotate(0deg); }
-  85%           { transform: rotate(180deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pf-flip-hint, .pf-flip-hint-icon { animation: none; }
-}
-
-/* Glowing orb that travels a connector while it is "flowing". */
-.pf-orb {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  margin-top: -3.5px;
-  border-radius: 9999px;
-  background: rgba(200, 240, 255, 0.95);
-  box-shadow:
-    0 0 8px 2px rgba(127, 220, 255, 0.75),
-    0 6px 10px -2px rgba(127, 220, 255, 0.5); /* soft fading trail below */
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Completion flourish: badges glow once, then settle to idle. */
-.pf-badge-wrap { transition: transform 0.3s ease; }
-.pf-row:hover .pf-badge-wrap { transform: rotate(-3deg); }
-.pf-rail.is-complete .pf-badge-wrap { animation: pf-badge-complete 1.3s ease; }
-@keyframes pf-badge-complete {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(127, 220, 255, 0)); }
-  40%      { filter: drop-shadow(0 0 8px rgba(127, 220, 255, 0.85)); }
-}
-
-/* AI scanning shimmer inside the active row only. */
-.pf-scan {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0;
-}
-.pf-scan::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 40%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(127, 220, 255, 0.28),
-    rgba(255, 255, 255, 0.18),
-    transparent
-  );
-  transform: translateX(-140%);
-}
-.pf-row[data-status="active"] .pf-scan { opacity: 1; }
-.pf-row[data-status="active"] .pf-scan::before { animation: pf-scan-sweep 0.75s ease-in-out; }
-@keyframes pf-scan-sweep {
-  0%   { transform: translateX(-140%); }
-  100% { transform: translateX(320%); }
-}
-
-/* Per-row cursor spotlight (stays inside the row). */
-.pf-row .pf-spotlight {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  background: radial-gradient(
-    120px circle at var(--pf-mx, 50%) var(--pf-my, 50%),
-    rgba(127, 220, 255, 0.16),
-    transparent 60%
-  );
-}
-.pf-row:hover .pf-spotlight { opacity: 1; }
-
-/* Idle pulse: faint orb travelling the whole rail once every cycle. */
-.pf-idle-pulse {
-  position: absolute;
-  left: 22px;
-  top: 0;
-  width: 6px;
-  height: 6px;
-  margin-left: -2px;
-  border-radius: 9999px;
-  background: rgba(127, 220, 255, 0.9);
-  box-shadow: 0 0 10px 2px rgba(127, 220, 255, 0.6);
-  opacity: 0;
-  z-index: 2;
-  pointer-events: none;
-  animation: pf-idle-travel 7s ease-in-out infinite;
-}
-@keyframes pf-idle-travel {
-  0%   { top: 0; opacity: 0; }
-  3%   { opacity: 0.85; }
-  22%  { top: 100%; opacity: 0; }
-  100% { top: 100%; opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pf-ambient,
-  .pf-glass,
-  .pf-particles i,
-  .pf-idle-pulse,
-  .pf-rail.is-complete .pf-badge-wrap { animation: none; }
-  .pf-particles, .pf-idle-pulse, .pf-orb { display: none; }
-  .pf-connector-line { transition: none; }
-  .pf-row[data-status="active"] .pf-scan { opacity: 0; }
 }

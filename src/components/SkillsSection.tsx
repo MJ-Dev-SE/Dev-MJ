@@ -1,157 +1,119 @@
-import { useState } from "react";
+import { motion } from "framer-motion";
+import SectionHeading from "./SectionHeading";
+import {
+  staggerContainer,
+  staggerItem,
+  revealViewport,
+  cardHover,
+} from "./motion";
+
+const ICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 
 type TechStackGroup = {
   title: string;
+  note: string;
   items: { name: string; icon: string }[];
 };
 
+// Grouped by what the tools are actually for, not by vendor.
 const techStackGroups: TechStackGroup[] = [
   {
-    title: "Web Technologies & Programming Languages",
+    title: "Languages",
+    note: "What I write day to day",
     items: [
-      {
-        name: "HTML5",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-      },
-      {
-        name: "CSS3",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-      },
-      {
-        name: "JavaScript",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-      },
-      {
-        name: "TypeScript",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-      },
-      {
-        name: "PHP",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
-      },
+      { name: "TypeScript", icon: `${ICON}/typescript/typescript-original.svg` },
+      { name: "JavaScript", icon: `${ICON}/javascript/javascript-original.svg` },
+      { name: "HTML5", icon: `${ICON}/html5/html5-original.svg` },
+      { name: "CSS3", icon: `${ICON}/css3/css3-original.svg` },
+      { name: "PHP", icon: `${ICON}/php/php-original.svg` },
     ],
   },
   {
-    title: "Libraries & UI Frameworks",
+    title: "Interfaces",
+    note: "Web and mobile front ends",
     items: [
-      {
-        name: "React",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-      },
-      {
-        name: "React Native",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-      },
-      {
-        name: "Bootstrap",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
-      },
-      {
-        name: "Tailwind CSS",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
-      },
+      { name: "React", icon: `${ICON}/react/react-original.svg` },
+      { name: "React Native", icon: `${ICON}/react/react-original.svg` },
+      { name: "Tailwind CSS", icon: `${ICON}/tailwindcss/tailwindcss-original.svg` },
+      { name: "Bootstrap", icon: `${ICON}/bootstrap/bootstrap-original.svg` },
     ],
   },
   {
-    title: "Tools",
+    title: "Data & backend",
+    note: "Where the state lives",
     items: [
-      {
-        name: "Git",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-      },
-      {
-        name: "VS Code",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
-      },
-      {
-        name: "Node.js",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-      },
+      { name: "Laravel", icon: `${ICON}/laravel/laravel-original.svg` },
+      { name: "MySQL", icon: `${ICON}/mysql/mysql-original.svg` },
+      { name: "Supabase", icon: `${ICON}/supabase/supabase-original.svg` },
+      { name: "Firebase", icon: `${ICON}/firebase/firebase-plain.svg` },
     ],
   },
   {
-    title: "Database & Backend",
+    title: "Tooling",
+    note: "How the work gets shipped",
     items: [
-      {
-        name: "Laravel",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
-      },
-      {
-        name: "MySQL",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-      },
-      {
-        name: "Firebase",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-      },
-      {
-        name: "Supabase",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
-      },
+      { name: "Git", icon: `${ICON}/git/git-original.svg` },
+      { name: "Node.js", icon: `${ICON}/nodejs/nodejs-original.svg` },
+      { name: "VS Code", icon: `${ICON}/vscode/vscode-original.svg` },
     ],
   },
 ];
 
 export default function SkillsSection() {
-  const [activeGroup, setActiveGroup] = useState(0);
-  const active = techStackGroups[activeGroup];
-
   return (
     <section
       id="skills"
       className="mx-auto max-w-5xl scroll-mt-24 px-6 py-20 md:py-28"
     >
-      <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-clay-600">
-          Stack Snapshot
-        </p>
-        <h2 className="mt-3 text-3xl font-bold text-stone-800 md:text-4xl">
-          Skills & Tools
-        </h2>
-        <div className="mx-auto mt-6 h-1 w-16 rounded-full bg-clay-500" />
-      </div>
+      <SectionHeading
+        eyebrow="Stack"
+        title="Skills & tools"
+        lead="Everything below is something I've shipped with, not just read about."
+      />
 
-      <div className="mt-10 rounded-3xl border border-beige-200 bg-white/60 p-6 shadow-sm md:p-8">
-        <div className="flex flex-wrap justify-center gap-2">
-          {techStackGroups.map((group, index) => (
-            <button
-              key={group.title}
-              type="button"
-              onClick={() => setActiveGroup(index)}
-              className={`rounded-full border px-4 py-2 text-xs font-medium transition-all duration-300 ${
-                activeGroup === index
-                  ? "border-clay-700 bg-clay-700 text-azure"
-                  : "border-beige-300 text-stone-600 hover:border-clay-400 hover:text-clay-700"
-              }`}
-            >
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={revealViewport}
+        className="mt-12 grid gap-4 sm:grid-cols-2"
+      >
+        {techStackGroups.map((group) => (
+          <motion.div
+            key={group.title}
+            variants={staggerItem}
+            {...cardHover}
+            className="rounded-2xl border border-beige-200 bg-beige-50 p-6 shadow-sm transition-shadow duration-200 hover:shadow-md"
+          >
+            <h3 className="text-base font-semibold text-stone-900">
               {group.title}
-            </button>
-          ))}
-        </div>
+            </h3>
+            <p className="mt-1 text-xs text-stone-500">{group.note}</p>
 
-        <div
-          key={active.title}
-          className="tech-stack-slide mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
-        >
-          {active.items.map((item) => (
-            <div
-              key={`${active.title}-${item.name}`}
-              className="flex min-h-12 items-center gap-2 rounded-xl border border-beige-300 bg-beige-50 px-3 py-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-clay-400 hover:shadow-sm"
-            >
-              <img
-                src={item.icon}
-                alt=""
-                aria-hidden="true"
-                className="h-6 w-6 shrink-0"
-                loading="lazy"
-              />
-              <span className="text-xs font-medium text-stone-700">
-                {item.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <motion.li
+                  key={`${group.title}-${item.name}`}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="flex items-center gap-2 rounded-lg border border-beige-200 bg-white/70 px-3 py-1.5 transition-colors duration-200 hover:border-clay-300 hover:bg-white"
+                >
+                  <img
+                    src={item.icon}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-4 w-4 shrink-0"
+                    loading="lazy"
+                  />
+                  <span className="text-xs font-medium text-stone-700">
+                    {item.name}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 }

@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import SectionHeading from "./SectionHeading";
+import {
+  staggerContainer,
+  staggerItem,
+  revealViewport,
+  cardHover,
+} from "./motion";
 
 type ExperienceEntry = {
   title: string;
@@ -13,209 +18,102 @@ type ExperienceEntry = {
 const experience: ExperienceEntry[] = [
   {
     title: "React & TypeScript Developer",
-    subtitle: "Hanin.tv (Korean Community Platform)",
+    subtitle: "Hanin.tv — Korean community platform",
     timeline: "2026",
     description:
-      "Developed hanin.tv, a live web platform for the Korean community in the Philippines. It helps Korean nationals discover information about Koreans residing locally, organized across different categories. Built a React + TypeScript front end backed by a database.",
+      "Built and shipped hanin.tv, a live directory for the Korean community in the Philippines. Korean nationals use it to find local businesses, services, and people, sorted into categories.",
     highlights: [
-      "Shipped a React + TypeScript front end for a live production site",
-      "Backed content with a database-driven backend across categories",
-      "Organized community information for Koreans residing in the Philippines",
+      "Shipped a React + TypeScript front end to production",
+      "Wired the pages to a database-driven backend, category by category",
+      "Kept the directory readable on the phones most visitors arrive with",
     ],
   },
   {
-    title: "React | Personal Project",
+    title: "React Developer — personal project",
     subtitle: "EASYJOBAISTATUS",
     timeline: "2026",
     description:
-      "Built a status dashboard for job tracking and team updates. Designed clear progress views, alerts, and timeline summaries. Delivered visibility that accelerates decision-making and handoff.",
+      "A job-application tracker that answers one question: where does each application actually stand? Progress views, alerts, and timeline summaries in one dashboard.",
     highlights: [
-      "Built a status dashboard for job tracking and team updates",
-      "Designed clear progress views, alerts, and timeline summaries",
-      "Delivered visibility that accelerates decision-making and handoff",
+      "Status dashboard covering every application in one view",
+      "AI fit analysis that flags the gaps between a résumé and a posting",
+      "Follow-up prompts so nothing goes quiet for two weeks",
     ],
   },
-  // {
-  //   title: "UI / UX Developer | Intern",
-  //   subtitle: "PNP Inventory System",
-  //   timeline: "Dec 2025 – March 2026",
-  //   description:
-  //     "Aligned system workflows with PNP operations and reporting. Implemented secure role-based access and audit tracking. Optimized inventory sync for faster police logistics updates.",
-  //   highlights: [
-  //     "Aligned system workflows with PNP operations and reporting",
-  //     "Implemented secure role-based access and audit tracking",
-  //     "Optimized inventory sync for faster police logistics updates",
-  //   ],
-  // },
   {
-    title: "Mobile App Dev - Thesis",
-    subtitle: "ShopFur (Augmented Reality)",
-    timeline: "January 2025 – December 2025",
+    title: "Mobile Developer — thesis",
+    subtitle: "ShopFur — augmented reality shopping",
+    timeline: "Jan 2025 – Dec 2025",
     description:
-      "Developed React Native features with Unity AR integration. Enabled immersive product previews and interactive shopping. Increased engagement through stable AR experience flows.",
+      "A React Native shopping app with Unity AR built in, so shoppers could place furniture in their own room before buying it.",
     highlights: [
-      "Developed React Native features with Unity AR integration",
-      "Enabled immersive product previews and interactive shopping",
-      "Increased engagement through stable AR experience flows",
+      "Integrated a Unity AR scene into a React Native app",
+      "Built the product preview flow end to end",
+      "Stabilised the AR session so placement survived a lost tracking frame",
     ],
   },
-  // {
-  //   title: "UI THINK",
-  //   subtitle: "UI Terminology & Standards Guide",
-  //   timeline: "2026 release",
-  //   description:
-  //     "Maps major UI terminology and prerequisite design concepts. Shows sample patterns and when to use or avoid them. Connects standards-driven documentation with UI decisions. Adds Gemini AI guidance for smarter interface reviews.",
-  //   highlights: [
-  //     "Maps major UI terminology and prerequisite design concepts",
-  //     "Shows sample patterns and when to use or avoid them",
-  //     "Connects standards-driven documentation with UI decisions",
-  //     "Adds Gemini AI guidance for smarter interface reviews",
-  //   ],
-  // },
 ];
 
 export default function ExperienceSection() {
-  const reduceMotion = useReducedMotion();
-  const [selected, setSelected] = useState<ExperienceEntry | null>(null);
-
-  // Close on Escape and lock body scroll while the modal is open.
-  useEffect(() => {
-    if (!selected) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelected(null);
-    };
-    document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [selected]);
-
   return (
     <section
       id="experience"
-      className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20 md:py-28"
+      className="mx-auto max-w-4xl scroll-mt-24 px-6 py-20 md:py-28"
     >
-      <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-clay-600">
-          Where I've worked
-        </p>
-        <h2 className="mt-3 text-3xl font-bold text-stone-800 md:text-4xl">
-          Experience
-        </h2>
-        <div className="mx-auto mt-6 h-1 w-16 rounded-full bg-clay-500" />
-      </div>
+      <SectionHeading
+        eyebrow="Experience"
+        title="What I've shipped"
+        lead="Three projects, from a live production site to an AR thesis build."
+      />
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <motion.ol
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={revealViewport}
+        className="mt-12 space-y-4"
+      >
         {experience.map((entry) => (
-          <div
+          <motion.li
             key={entry.subtitle}
-            className="rounded-2xl border border-beige-200 bg-beige-50 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-clay-300 hover:shadow-md"
+            variants={staggerItem}
+            {...cardHover}
+            className="rounded-2xl border border-beige-200 bg-beige-50 p-6 shadow-sm transition-shadow duration-200 hover:border-clay-300 hover:shadow-md md:p-7"
           >
-            <h3 className="text-base font-bold text-stone-800">
-              {entry.title}
-            </h3>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 className="text-lg font-semibold tracking-tight text-stone-900">
+                {entry.title}
+              </h3>
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-stone-400">
+                {entry.timeline}
+              </span>
+            </div>
+
             <p className="mt-1 text-sm font-semibold text-clay-700">
               {entry.subtitle}
             </p>
-            <p className="mt-1 text-xs text-beige-600">{entry.timeline}</p>
-            <p
-              className="mt-3 overflow-hidden text-sm leading-relaxed text-stone-600"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: "vertical",
-              }}
-            >
+
+            <p className="mt-3 text-sm leading-relaxed text-stone-600">
               {entry.description}
             </p>
-            <button
-              type="button"
-              className="mt-3 text-xs font-semibold uppercase tracking-wider text-clay-600 transition-colors hover:text-clay-800"
-              onClick={() => setSelected(entry)}
-            >
-              See more →
-            </button>
-          </div>
-        ))}
-      </div>
 
-      {createPortal(
-        <AnimatePresence>
-          {selected && (
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-              onClick={(event) => {
-                // Close only when the click lands on the overlay itself,
-                // never when it bubbles up from inside the panel.
-                if (event.target === event.currentTarget) setSelected(null);
-              }}
-              role="dialog"
-              aria-modal="true"
-              aria-label={`${selected.title} — ${selected.subtitle}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              <motion.div
-                className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-beige-300 bg-beige-50 p-8 shadow-2xl"
-              initial={
-                reduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 24, scale: 0.96 }
-              }
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={
-                reduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 16, scale: 0.97 }
-              }
-              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            >
-            <div className="mb-6 flex items-start justify-between">
-              <div>
-                <h3 className="text-2xl font-bold text-stone-800">
-                  {selected.title}
-                </h3>
-                <p className="text-lg font-semibold text-clay-700">
-                  {selected.subtitle}
-                </p>
-                <p className="text-sm text-clay-600">{selected.timeline}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="text-2xl text-stone-400 hover:text-stone-700"
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <p className="leading-relaxed text-stone-600">
-              {selected.description}
-            </p>
-            <div className="mt-6">
-              <h4 className="mb-3 font-semibold text-stone-800">
-                Key Highlights:
-              </h4>
-              <ul className="space-y-2 text-stone-600">
-                {selected.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-start gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-clay-500" />
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
+            <ul className="mt-4 space-y-2 border-t border-beige-200 pt-4">
+              {entry.highlights.map((highlight) => (
+                <li
+                  key={highlight}
+                  className="flex items-start gap-2.5 text-sm text-stone-600"
+                >
+                  <span
+                    className="mt-2 h-1 w-1 shrink-0 rounded-full bg-clay-500"
+                    aria-hidden="true"
+                  />
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </motion.li>
+        ))}
+      </motion.ol>
     </section>
   );
 }

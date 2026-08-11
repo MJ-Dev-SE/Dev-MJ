@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 type NavChild = { label: string; id: string };
 type NavItem = { label: string; id: string; children?: NavChild[] };
@@ -42,9 +43,7 @@ export default function Navbar() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveId(entry.target.id);
         });
       },
       { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
@@ -56,18 +55,21 @@ export default function Navbar() {
 
   const closeMobile = () => setMobileOpen(false);
 
-  const pillClass = (active: boolean) =>
-    `rounded-full px-3 py-2 text-sm transition-colors ${
-      isHome && active
-        ? "bg-clay-200 font-semibold text-clay-900"
-        : "font-medium text-stone-600 hover:bg-beige-200/70 hover:text-clay-800"
-    }`;
+  // Reading-progress line across the bottom edge of the header.
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
-  const dropdownItemClass = (active: boolean) =>
-    `block rounded-lg px-3 py-2 text-sm transition-colors ${
+  // Active links are dark text on a light clay pill — never light text on a
+  // light surface (see the readability rule in CLAUDE.md).
+  const pillClass = (active: boolean) =>
+    `rounded-full px-3.5 py-2 text-sm transition-colors duration-200 ${
       isHome && active
-        ? "bg-clay-200 font-semibold text-clay-900"
-        : "font-medium text-stone-600 hover:bg-beige-200/70 hover:text-clay-800"
+        ? "bg-clay-100 font-semibold text-clay-800"
+        : "font-medium text-stone-600 hover:bg-beige-100 hover:text-clay-700"
     }`;
 
   const isItemActive = (item: NavItem) =>
@@ -75,13 +77,18 @@ export default function Navbar() {
     (item.children?.some((child) => child.id === activeId) ?? false);
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-beige-300 bg-beige-50/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-clay-700 text-sm font-bold text-azure">
+    <nav className="sticky top-0 z-40 border-b border-beige-200 bg-beige-50/85 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <Link to="/" className="group flex items-center gap-2.5">
+          <motion.span
+            className="grid h-9 w-9 place-items-center rounded-xl bg-clay-700 text-sm font-semibold text-azure"
+            whileHover={{ rotate: -6, scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          >
             MJ
-          </span>
-          <span className="hidden font-semibold text-stone-800 sm:inline">
+          </motion.span>
+          <span className="hidden text-sm font-semibold tracking-tight text-stone-800 sm:inline">
             Mark Jerohm Castro
           </span>
         </Link>
@@ -92,7 +99,7 @@ export default function Navbar() {
               <div key={item.id} className="group relative">
                 <a
                   href={`/#${item.id}`}
-                  className={`${pillClass(isItemActive(item))} inline-flex items-center gap-1`}
+                  className={`${pillClass(isItemActive(item))} inline-flex items-center gap-1.5`}
                 >
                   {item.label}
                   <svg
@@ -100,6 +107,7 @@ export default function Navbar() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -109,13 +117,13 @@ export default function Navbar() {
                     />
                   </svg>
                 </a>
-                <div className="invisible absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                  <div className="min-w-[190px] rounded-xl border border-beige-200 bg-beige-50 p-1.5 shadow-lg shadow-beige-900/10">
+                <div className="invisible absolute left-0 top-full translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="min-w-[180px] rounded-xl border border-beige-200 bg-beige-50 p-1.5 shadow-lg shadow-beige-900/5">
                     {item.children.map((child) => (
                       <a
                         key={child.id}
                         href={`/#${child.id}`}
-                        className={dropdownItemClass(activeId === child.id)}
+                        className={`block ${pillClass(activeId === child.id)} !rounded-lg`}
                       >
                         {child.label}
                       </a>
@@ -138,37 +146,36 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileOpen((open) => !open)}
-          className="rounded-md p-2 text-stone-700 transition-colors hover:bg-beige-200/70 md:hidden"
+          className="rounded-lg p-2 text-stone-700 transition-colors hover:bg-beige-100 md:hidden"
           aria-label="Toggle navigation menu"
           aria-expanded={mobileOpen}
         >
           <svg
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d={mobileOpen ? "M6 18L18 6M6 6l12 12" : "M4 7h16M4 12h16M4 17h16"}
+            />
           </svg>
         </button>
       </div>
 
+      {/* Reading progress — sits on the header's bottom edge. */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-clay-500"
+        style={{ scaleX: progress }}
+        aria-hidden="true"
+      />
+
       {mobileOpen && (
-        <div className="border-t border-beige-300 bg-beige-50 px-6 py-4 md:hidden">
+        <div className="border-t border-beige-200 bg-beige-50 px-6 py-4 md:hidden">
           <div className="flex flex-col gap-1">
             {navItems.map((item) => (
               <div key={item.id}>
@@ -180,7 +187,7 @@ export default function Navbar() {
                   {item.label}
                 </a>
                 {item.children && (
-                  <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-beige-300 pl-3">
+                  <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-beige-200 pl-3">
                     {item.children.map((child) => (
                       <a
                         key={child.id}
