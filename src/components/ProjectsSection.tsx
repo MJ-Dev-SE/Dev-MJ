@@ -43,29 +43,15 @@ const projects: Project[] = [
     description:
       "A job-application tracker that keeps every opportunity, its status, and the next follow-up in one place — with AI reading the gap between your résumé and the posting.",
     tech: ["React 19", "TypeScript", "Supabase", "Tailwind CSS", "Gemini"],
-    projectStatus: "In progress",
+    projectStatus: "Live",
     timeline: "2026",
     highlights: [
       "One dashboard for every application's status",
       "Fit analysis that names the missing skills",
       "Automated follow-up and company research",
     ],
-  },
-  {
-    title: "Augmented Reality Walkthrough",
-    description:
-      "Two companion mobile apps that place AR-ready furniture in a real room, with contextual tagging and a guided video walkthrough.",
-    tech: ["React Native", "Unity", "ARCore"],
-    projectStatus: "Maintained",
-    timeline: "2025",
-    highlights: [
-      "Live Unity scene embedded in React Native",
-      "Offline-first asset sync",
-      "Guided video walkthrough for first-time users",
-    ],
-    // The two install builds have been taken down, so there is nothing left to
-    // link to — the entry stays as a record of the work.
-    note: "The install builds are no longer available.",
+    link: "https://easyjobastatus.vercel.app/",
+    ctaLabel: "Open the tracker",
   },
   {
     title: "Basketball Playbook System",
@@ -186,7 +172,7 @@ export default function ProjectsSection() {
       <SectionHeading
         eyebrow="Projects"
         title="Selected work"
-        lead="A live community platform, an AI-assisted job tracker, an AR shopping build, and a playbook tool in planning."
+        lead="Two live builds — a community platform and an AI-assisted job tracker — plus a playbook tool in planning."
       />
 
       <motion.div
