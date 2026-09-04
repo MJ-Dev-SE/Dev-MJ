@@ -206,3 +206,37 @@ html {
     transition: none;
   }
 }
+
+/* --- Mobile snap carousel (MobileSection) ------------------------------- */
+/* The snap track is a real scroll container so touch keeps native swipe;
+   the scrollbar itself would sit across the phone mockup, so hide it. */
+.snap-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.snap-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Story-style segment fill. The duration is set inline from SLIDE_MS so the
+   bar and the autoplay timer always agree. */
+@keyframes snap-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.snap-fill {
+  width: 100%;
+  animation: snap-fill linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snap-fill {
+    animation: none;
+  }
+}

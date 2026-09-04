@@ -8,10 +8,11 @@ import {
   buttonPress,
 } from "./motion";
 
+// Cards describe what a project *does*, never what it is built with — the
+// stack already has its own section, so repeating it here just crowds the copy.
 type Project = {
   title: string;
   description: string;
-  tech: string[];
   projectStatus: "Live" | "In progress" | "Maintained" | "Planning";
   timeline: string;
   highlights: string[];
@@ -27,12 +28,11 @@ const projects: Project[] = [
     title: "Hanin.tv",
     description:
       "A live directory for the Korean community in the Philippines — local businesses, services, and people, grouped into categories you can actually browse.",
-    tech: ["React", "TypeScript", "Database"],
     projectStatus: "Live",
     timeline: "2026",
     highlights: [
       "Category-based directory, built for browsing not searching",
-      "React + TypeScript front end on a database-driven backend",
+      "Reads cleanly on the phones most visitors arrive with",
       "Running in production today",
     ],
     link: "https://www.hanin.tv/",
@@ -42,7 +42,6 @@ const projects: Project[] = [
     title: "EASYJOBAISTATUS",
     description:
       "A job-application tracker that keeps every opportunity, its status, and the next follow-up in one place — with AI reading the gap between your résumé and the posting.",
-    tech: ["React 19", "TypeScript", "Supabase", "Tailwind CSS", "Gemini"],
     projectStatus: "Live",
     timeline: "2026",
     highlights: [
@@ -57,7 +56,6 @@ const projects: Project[] = [
     title: "Basketball Playbook System",
     description:
       "A dashboard for cataloguing plays, player roles, and tempo, so a coach can plan a set — and adjust it — without redrawing the whole board.",
-    tech: ["React", "Tailwind CSS", "Firebase"],
     projectStatus: "Planning",
     timeline: "2026",
     highlights: [
@@ -112,17 +110,6 @@ function ProjectCard({ project }: { project: Project }) {
         ))}
       </ul>
 
-      <ul className="mt-5 flex flex-wrap gap-1.5">
-        {project.tech.map((item) => (
-          <li
-            key={item}
-            className="rounded-md border border-beige-200 bg-white/70 px-2 py-1 text-[11px] text-stone-600"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-
       <div className="mt-auto pt-5">
         {project.link && (
           <motion.a
@@ -172,7 +159,7 @@ export default function ProjectsSection() {
       <SectionHeading
         eyebrow="Projects"
         title="Selected work"
-        lead="Two live builds — a community platform and an AI-assisted job tracker — plus a playbook tool in planning."
+        lead="Two live builds on the web — a community platform and an AI-assisted job tracker — plus a playbook tool in planning. The mobile one gets its own section below."
       />
 
       <motion.div

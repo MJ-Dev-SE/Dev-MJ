@@ -55,10 +55,7 @@ export default function HomeIntro() {
             variants={introItem}
             className="mt-5 max-w-xl text-lg leading-relaxed text-stone-600 lg:mx-0"
           >
-            I build web and mobile interfaces with React, TypeScript, and
-            React Native — from a live community platform to an AR shopping
-            app. My aim is always the same: something clear to use and simple
-            enough that the next developer can pick it up.
+            I design and develop high-performance web and mobile interfaces leveraging React, TypeScript, and React Native. Experienced in building everything from real-time community platforms to modern digital applications, I focus on delivering seamless user experiences and writing clean, maintainable code designed for efficient team collaboration.
           </motion.p>
 
           <motion.div

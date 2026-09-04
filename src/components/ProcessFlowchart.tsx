@@ -325,7 +325,7 @@ export default function ProcessFlowchart({ revealed }: { revealed: number }) {
           fontSize="10"
           fontWeight="600"
         >
-          Ship &amp; watch
+          Ship &amp; maintain
         </text>
       </g>
     </svg>

@@ -3,6 +3,7 @@ import AboutSection from "../components/AboutSection";
 import SkillsSection from "../components/SkillsSection";
 import ExperienceSection from "../components/ExperienceSection";
 import ProjectsSection from "../components/ProjectsSection";
+import MobileSection from "../components/MobileSection";
 import CertificationsSection from "../components/CertificationsSection";
 import ContactSection from "../components/ContactSection";
 import ScrollReveal from "../components/ScrollReveal";
@@ -24,6 +25,9 @@ export default function Home() {
       </ScrollReveal>
       <ScrollReveal>
         <ProjectsSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <MobileSection />
       </ScrollReveal>
       <ScrollReveal>
         <CertificationsSection />

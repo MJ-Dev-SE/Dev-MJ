@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
     id: "experience",
     children: [
       { label: "Projects", id: "projects" },
+      { label: "Mobile", id: "mobile" },
       { label: "Certifications", id: "certifications" },
     ],
   },
