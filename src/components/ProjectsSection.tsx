@@ -21,6 +21,13 @@ type Project = {
   links?: { label: string; url: string }[];
   // Shown in place of a CTA when there is deliberately nothing to link to.
   note?: string;
+  /**
+   * A standing notice rendered on the card itself. For work that reports on
+   * real people or public money, this is the line that keeps the entry from
+   * reading as an accusation — so it is given its own readable block rather
+   * than being tucked into `note`, which renders faint and small.
+   */
+  disclaimer?: string;
 };
 
 const projects: Project[] = [
@@ -38,19 +45,41 @@ const projects: Project[] = [
     link: "https://www.hanin.tv/",
     ctaLabel: "Visit Hanin.tv",
   },
+  // Swapped out for Budget Watch PH below. Kept so it can go back up quickly.
+  // {
+  //   title: "EASYJOBAISTATUS",
+  //   description:
+  //     "A job-application tracker that keeps every opportunity, its status, and the next follow-up in one place — with AI reading the gap between your résumé and the posting.",
+  //   projectStatus: "Live",
+  //   timeline: "2026",
+  //   highlights: [
+  //     "One dashboard for every application's status",
+  //     "Fit analysis that names the missing skills",
+  //     "Automated follow-up and company research",
+  //   ],
+  //   link: "https://easyjobastatus.vercel.app/",
+  //   ctaLabel: "Open the tracker",
+  // },
   {
-    title: "EASYJOBAISTATUS",
+    // Wording here is deliberately careful. The app reports on public spending,
+    // so the copy describes what it *shows* and where the data came from, and
+    // never asserts wrongdoing by anyone. Flags are described as computed
+    // signals for review. The `disclaimer` below mirrors the app's own
+    // presumption-of-innocence notice and must stay on the card.
+    title: "Budget Watch PH",
     description:
-      "A job-application tracker that keeps every opportunity, its status, and the next follow-up in one place — with AI reading the gap between your résumé and the posting.",
+      "One place to follow where the 2026 national budget goes and which projects it funds. Every figure keeps the published article it came from, and each project's status is worked out from those reported dates rather than asserted.",
     projectStatus: "Live",
     timeline: "2026",
     highlights: [
-      "One dashboard for every application's status",
-      "Fit analysis that names the missing skills",
-      "Automated follow-up and company research",
+      "Status is computed from the record — allotted but nothing built reads as no progress, not as a verdict",
+      "Procurement patterns worth a second look are surfaced for review, not labelled as wrongdoing",
+      "Every project and person carries its sources and an as-of date, so any figure can be traced back",
     ],
-    link: "https://easyjobastatus.vercel.app/",
-    ctaLabel: "Open the tracker",
+    disclaimer:
+      "A civic-education demo built from public reporting — not an official or legal record. Being named, charged, or investigated is not a finding of guilt; these matters are ongoing and everyone is presumed innocent.",
+    // link: "https://publicity-knows.vercel.app/",
+    ctaLabel: "Open Budget Watch PH",
   },
   {
     title: "Basketball Playbook System",
@@ -110,6 +139,25 @@ function ProjectCard({ project }: { project: Project }) {
         ))}
       </ul>
 
+      {project.disclaimer && (
+        <p className="mt-5 flex items-start gap-2 rounded-lg border border-beige-300 bg-beige-100/70 px-3 py-2.5 text-[11px] leading-relaxed text-stone-500">
+          <svg
+            className="mt-0.5 h-3.5 w-3.5 shrink-0 text-clay-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4M12 8h.01" />
+          </svg>
+          {project.disclaimer}
+        </p>
+      )}
+
       <div className="mt-auto pt-5">
         {project.link && (
           <motion.a
@@ -152,22 +200,33 @@ function ProjectCard({ project }: { project: Project }) {
 
 export default function ProjectsSection() {
   return (
+    // max-w-4xl to match ExperienceSection, which uses the same stacked
+    // layout — a full 5xl line length is too wide to read comfortably.
     <section
       id="projects"
-      className="mx-auto max-w-5xl scroll-mt-24 px-6 py-20 md:py-28"
+      className="mx-auto max-w-4xl scroll-mt-24 px-6 py-20 md:py-28"
     >
       <SectionHeading
         eyebrow="Projects"
         title="Selected work"
-        lead="Two live builds on the web — a community platform and an AI-assisted job tracker — plus a playbook tool in planning. The mobile one gets its own section below."
+        lead="Two live builds on the web — a community directory and a civic-education budget tracker — plus a playbook tool in planning. The mobile work gets its own section below."
       />
 
+      {/* One card per row, like ExperienceSection.
+          These three cards carry very different amounts of copy — Budget Watch
+          PH has longer highlights and a disclaimer block — and every
+          side-by-side layout handled that badly: a grid stretched the short
+          card to match its neighbour and left it half empty, `items-start` left
+          a hole beneath it, and CSS columns just moved the hole (balancing to
+          one card beside two). Stacking sidesteps the whole problem: each card
+          is its own height, nothing stretches, and there is no gap to fill.
+          Full width also means less wrapping, so every card gets shorter. */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="show"
         viewport={revealViewport}
-        className="mt-12 grid gap-4 md:grid-cols-2"
+        className="mt-12 space-y-4"
       >
         {projects.map((project) => (
           <motion.div key={project.title} variants={staggerItem}>
