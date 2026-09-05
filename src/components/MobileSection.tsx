@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import { buttonPress } from "./motion";
@@ -286,22 +292,62 @@ export default function MobileSection() {
 
   useEffect(() => () => window.clearTimeout(settleRef.current), []);
 
-  // Press and hold to freeze the story; releasing resumes it. A release that
-  // came from a hold must not also count as a tap-to-advance.
-  const pressedAt = useRef(0);
+  // One pointer gesture on the phone means one of three things: a hold (pause),
+  // a swipe (let the track scroll natively), or a tap on an edge (advance).
+  //
+  // Tap detection lives here, on the element wrapping the scroll track, rather
+  // than in absolutely-positioned overlay buttons. Those buttons were siblings
+  // of the track, not ancestors, so a touch landing on one had no horizontally
+  // scrollable ancestor and the swipe was swallowed — which is why they were
+  // `hidden md:block`, i.e. desktop-only, and why tapping did nothing on a
+  // phone. Reading the gesture instead leaves native swiping untouched.
+  const press = useRef({ x: 0, y: 0, at: 0, moved: false });
 
-  const startHold = () => {
-    pressedAt.current = Date.now();
+  const startHold = (event: ReactPointerEvent<HTMLDivElement>) => {
+    press.current = {
+      x: event.clientX,
+      y: event.clientY,
+      at: Date.now(),
+      moved: false,
+    };
     setHeld(true);
   };
 
   const endHold = () => setHeld(false);
 
-  const wasHold = () => Date.now() - pressedAt.current > HOLD_MS;
+  // The browser fires pointercancel the moment it takes the gesture over for
+  // scrolling — the clearest possible signal that this was a swipe, not a tap.
+  const cancelPress = () => {
+    press.current.moved = true;
+    endHold();
+  };
 
-  const tap = (next: number) => {
-    if (wasHold()) return;
-    move(next);
+  const TAP_SLOP = 10; // px of drift still counted as a tap, not a drag
+
+  const endPress = (event: ReactPointerEvent<HTMLDivElement>) => {
+    endHold();
+    if (!multiple) return;
+
+    const { x, y, at, moved } = press.current;
+    const target = event.target as HTMLElement | null;
+
+    // Let real controls (progress segments) handle their own clicks.
+    if (target?.closest("button, a")) return;
+
+    if (
+      moved ||
+      Date.now() - at > HOLD_MS ||
+      Math.abs(event.clientX - x) > TAP_SLOP ||
+      Math.abs(event.clientY - y) > TAP_SLOP
+    ) {
+      return;
+    }
+
+    // Which third of the screen was tapped decides the direction.
+    const rect = event.currentTarget.getBoundingClientRect();
+    const ratio = (event.clientX - rect.left) / rect.width;
+    if (ratio < 0.33) move(index - 1);
+    else if (ratio > 0.67) move(index + 1);
   };
 
   return (
@@ -443,8 +489,8 @@ export default function MobileSection() {
           <div
             className="relative w-[264px] rounded-[2.75rem] border-[10px] border-stone-800 bg-beige-50 shadow-xl shadow-beige-900/20 sm:w-[300px]"
             onPointerDown={startHold}
-            onPointerUp={endHold}
-            onPointerCancel={endHold}
+            onPointerUp={endPress}
+            onPointerCancel={cancelPress}
           >
             {/* notch */}
             <div
@@ -493,26 +539,9 @@ export default function MobileSection() {
                 </div>
               )}
 
-              {/* Tap zones — pointer only, so touch keeps native swiping. */}
-              {multiple && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => tap(index - 1)}
-                    className="absolute inset-y-0 left-0 z-20 hidden w-1/3 md:block"
-                    aria-label="Previous app"
-                    tabIndex={-1}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => tap(index + 1)}
-                    className="absolute inset-y-0 right-0 z-20 hidden w-1/3 md:block"
-                    aria-label="Next app"
-                    tabIndex={-1}
-                  />
-                </>
-              )}
-
+              {/* No overlay tap zones: `endPress` above reads the gesture, so
+                  tapping an edge works with a mouse and a finger alike, and a
+                  swipe is still handled natively by the track below. */}
               <div
                 ref={trackRef}
                 onScroll={handleScroll}
@@ -527,7 +556,9 @@ export default function MobileSection() {
 
           {multiple && (
             <p className="mt-4 text-center text-xs text-stone-400">
-              <span className="md:hidden">Swipe · hold to stop</span>
+              <span className="md:hidden">
+                Swipe or tap the edges · hold to stop
+              </span>
               <span className="hidden md:inline">
                 Tap the edges · hold to stop
               </span>
