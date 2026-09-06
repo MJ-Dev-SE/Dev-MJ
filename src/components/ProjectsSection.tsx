@@ -78,7 +78,7 @@ const projects: Project[] = [
     ],
     disclaimer:
       "A civic-education demo built from public reporting — not an official or legal record. Being named, charged, or investigated is not a finding of guilt; these matters are ongoing and everyone is presumed innocent.",
-    // link: "https://publicity-knows.vercel.app/",
+    link: "https://publicity-knows.vercel.app/",
     ctaLabel: "Open Budget Watch PH",
   },
   {

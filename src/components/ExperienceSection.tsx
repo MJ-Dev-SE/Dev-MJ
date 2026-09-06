@@ -63,7 +63,7 @@ export default function ExperienceSection() {
       <SectionHeading
         eyebrow="Experience"
         title="What I've shipped"
-        lead="Three projects, from a live production site to an AR thesis build."
+        // lead="Three projects, from a live production site to an AR thesis build."
       />
 
       <motion.ol
