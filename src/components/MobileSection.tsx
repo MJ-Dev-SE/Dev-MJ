@@ -36,7 +36,22 @@ type MobileApp = {
    * and that snap falls back to the typographic card below.
    */
   images?: string[];
-  /** Where the build can be downloaded — a Google Drive link is fine. */
+  /**
+   * APK served straight out of `public/`, e.g. "/MSM.apk". It is rendered as a
+   * plain `<a download>` on purpose: the browser then requests the file **only
+   * when the link is clicked**.
+   *
+   * Do not "improve" this into a fetch/blob download, an `onMount` size check,
+   * a `<link rel="preload">`, or anything else that touches the URL before the
+   * click — any of those pulls the whole 60MB+ file on every page load, which
+   * is exactly the bug this replaced.
+   */
+  apk?: string;
+  /** Filename the browser saves as. Defaults to the file's own name. */
+  apkName?: string;
+  /** Human-readable size, shown next to the button. Update if the APK is replaced. */
+  apkSize?: string;
+  /** An externally hosted build (a web app, a store page). */
   link?: string;
   linkLabel?: string;
   /** Shown instead of a button while there is nothing to link to. */
@@ -60,9 +75,12 @@ const apps: MobileApp[] = [
     // Dashboard first — it shows the rate guard refusing to finalize a bill,
     // which is the whole point of the app. Sign-in second.
     images: ["/mobile/Energyc-dashboard.jpg", "/mobile/Energyc-signin.jpg"],
-    link: "https://drive.google.com/file/d/17Qv8l4r-bSOshV9vm_6DOG_m_oTcx2oR/view?usp=sharing",
-    linkLabel: "Get the app on Google Drive",
-    note: "Distributed as an APK — the download link goes up here.",
+    // Served from this site, not Google Drive — see the `apk` note above for
+    // why it stays a plain link.
+    apk: "/MSM.apk",
+    apkName: "EnergyC.apk",
+    apkSize: "61 MB",
+    linkLabel: "Download the APK",
   },
   {
     name: "88 Resort",
@@ -223,6 +241,9 @@ export default function MobileSection() {
   const [autoplay, setAutoplay] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [held, setHeld] = useState(false);
+  // Purely a message: on a phone the browser gives no visible sign that a
+  // download started. It never touches the file — the anchor does that.
+  const [downloading, setDownloading] = useState(false);
   const reduceMotion = useReducedMotion();
 
   const multiple = snaps.length > 1;
@@ -291,6 +312,21 @@ export default function MobileSection() {
   };
 
   useEffect(() => () => window.clearTimeout(settleRef.current), []);
+
+  // Click acknowledgement for the APK link. No preventDefault, no request of
+  // its own — the anchor's own navigation is what fetches the file.
+  const downloadNoteRef = useRef<number | undefined>(undefined);
+
+  const announceDownload = () => {
+    setDownloading(true);
+    window.clearTimeout(downloadNoteRef.current);
+    downloadNoteRef.current = window.setTimeout(
+      () => setDownloading(false),
+      8000,
+    );
+  };
+
+  useEffect(() => () => window.clearTimeout(downloadNoteRef.current), []);
 
   // One pointer gesture on the phone means one of three things: a hold (pause),
   // a swipe (let the track scroll natively), or a tap on an edge (advance).
@@ -395,7 +431,43 @@ export default function MobileSection() {
           </ul>
 
           <div className="mt-6">
-            {app.link ? (
+            {app.apk ? (
+              <>
+                {/* A plain anchor, deliberately: the file is requested by the
+                    browser on click and at no other moment. No fetch, no blob,
+                    no preload — see the `apk` field note. */}
+                <motion.a
+                  href={app.apk}
+                  download={app.apkName}
+                  onClick={announceDownload}
+                  {...buttonPress}
+                  className="inline-flex items-center gap-2 rounded-lg bg-clay-700 px-4 py-2 text-sm font-semibold text-azure transition-colors hover:bg-clay-800"
+                >
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                  </svg>
+                  {app.linkLabel ?? "Download the APK"}
+                </motion.a>
+
+                <p
+                  className="mt-2.5 text-xs text-stone-400"
+                  aria-live="polite"
+                >
+                  {downloading
+                    ? "Download started — check your browser's downloads."
+                    : `Android${app.apkSize ? ` · ${app.apkSize}` : ""} · installing needs “unknown sources” allowed for your browser.`}
+                </p>
+              </>
+            ) : app.link ? (
               <motion.a
                 href={app.link}
                 target="_blank"
